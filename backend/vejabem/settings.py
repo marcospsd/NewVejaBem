@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #Libs Django
     'rest_framework',
     'rest_framework.authtoken',
+    'django_filters',
     'corsheaders',
     'ckeditor',
     'ckeditor_uploader',

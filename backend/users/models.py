@@ -95,7 +95,7 @@ class User(AbstractUser, models.Model):
     img = models.ImageField(upload_to=get_file_path, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        if self.img.exists():
+        if self.img:
             newimg = compress(self.img)
             self.img = newimg
             super().save(*args, **kwargs)

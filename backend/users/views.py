@@ -27,7 +27,7 @@ class CustomAuthToken(ObtainAuthToken):
         return Response({
             'token': token.key,
             'nome': user.first_name,
-            'iduser': user.pk
+            'iduser': user.pk,
         })
 
 class CreateUserView(viewsets.ModelViewSet):

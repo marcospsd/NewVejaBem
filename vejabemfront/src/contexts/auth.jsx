@@ -54,6 +54,7 @@ export const AuthProvicer = ({children}) => {
         localStorage.removeItem("nome")
         localStorage.removeItem("token")
         localStorage.removeItem("iduser")
+        localStorage.removeItem('imguser')
 
         api.defaults.headers.Authorization = null;
 

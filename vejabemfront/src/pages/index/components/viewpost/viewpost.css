@@ -1,0 +1,80 @@
+#modal-view-post {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 380px;
+    max-width: 100%;
+    height: 95%;
+    max-width: 100%;
+    background: whitesmoke;
+    border: 2px solid #000;
+    color: rgb(0, 0, 0);
+    border-radius: 1.5rem;
+    padding: 1rem;
+    margin: 0;
+    
+}
+
+.container-comments {
+    overflow: overlay;
+    height: 90%;
+}
+
+#button-close {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+}
+
+.container-comments::-webkit-scrollbar {
+    width: 0px;
+}
+
+.container-id-comments {
+    display: flex;
+    flex-direction: row;
+    background-color: whitesmoke;
+    padding: 1.2rem;
+    margin: 1rem 0;
+    border-radius: 1.5rem;
+    position: relative;
+    box-shadow: 17px 16px 19px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
+    
+}
+
+.container-id-comments hr {
+    margin: 0 1rem;
+}
+
+.content-comments {
+    width: 60px;
+    text-align: -webkit-center;
+}
+
+
+.content-comments img {
+    width: 50px;
+    height: 50px;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 0.12rem 0.16rem black, 0 0.24rem 0.32rem black;
+    
+}
+
+.text-comments h3 {
+    text-align: center;
+    font-size: 0.8rem;
+}
+
+.input-comments {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 1.5rem;
+}
+
+#input-comments-textfield {
+    width: 100%;
+}

@@ -1,5 +1,6 @@
-import React, {useState, useRef} from 'react';
+import React, {useState} from 'react';
 import './feed.css'
+import './ck-content.css'
 import SemIMG from '../../../../assets/sem_foto.png'
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import Editor from 'ckeditor5-custom-build/build/ckeditor'
@@ -11,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import { CircularProgress } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 import DropDown from '../../../../components/DropDown/dropdown';
-
+import ViewPost from '../viewpost/ViewPost'
 
 
 const Feed = props => {
@@ -19,6 +20,10 @@ const Feed = props => {
     const [post, setPost] = useState("")
     const { logout } = React.useContext(AuthContext);
     const iduser = localStorage.getItem('iduser')
+    const [modalviewpost, setModalViewPost] = useState(null)
+    const [modalidview, setModalIdView]= useState("")
+
+
     const handleLogout = () => {
         logout()
 
@@ -42,20 +47,22 @@ const Feed = props => {
     }
     
     const SendPost = async (id) => {
-        await api.post(`/posts/posts/`, id)
-        .then((res => {
-            mutate()
-        }))
-        .catch((err) => {
-            console.log(err)
-        })
+        if (post) {
+            await api.post(`/posts/posts/`, id)
+            .then((res => {
+                mutate()
+                setPost("")
+            }))
+            .catch((err) => {
+                console.log(err)
+            })
+        }
+
     }
 
     const HandleChange = (event, editor) => {
-        console.log(event)
-        console.log(editor)
         setPost(editor.getData());
-        console.log(post)
+
     }
 
     const Datefunction = (id) => {
@@ -65,12 +72,12 @@ const Feed = props => {
 
     const Curtir = async (post) => {
         const res = await api.get(`/posts/posts/${post.id}/`)
-        const ver = res.data.post_likes.filter(x => x == iduser) 
-        if (ver.length == 0) {
-            await api.put(`/posts/posts/${post.id}/`, {...post, post_likes: [ ...post.post_likes, iduser]})
+        const ver = res.data.post_likes.filter(x => x === iduser) 
+        if (ver.length === 0) {
+            await api.patch(`/posts/posts/${post.id}/`, { post_likes: [ ...post.post_likes, iduser]})
             .then((res) => {
                 const alterar = data.map((x) => {
-                    if (x.id == post.id) {
+                    if (x.id === post.id) {
                         return {...x, post_likes : [... x.post_likes, 1] }
                     } else { return x}
                 })
@@ -78,11 +85,11 @@ const Feed = props => {
             })
             .catch((err) => console.log(err))
         } else {
-            const arraycheio = res.data.post_likes.filter((x) => x != iduser)
-            await api.put(`/posts/posts/${post.id}/`, {...post, post_likes: arraycheio })
+            const arraycheio = res.data.post_likes.filter((x) => x !== iduser)
+            await api.patch(`/posts/posts/${post.id}/`, { post_likes: arraycheio })
             .then((res) => {
                 const alterar = data.map((x) => {
-                    if (x.id == post.id) {
+                    if (x.id === post.id) {
                         return {...x, post_likes : arraycheio }
                     } else { return x}
                 })
@@ -94,15 +101,13 @@ const Feed = props => {
 
     const NameButton = (data) => {
         const contar = data.post_likes.map(x => x).length
-        const verificar = data.post_likes.filter(x => x == iduser)
-        if (verificar.length == 0) {
+        const verificar = data.post_likes.filter(x => x === iduser)
+        if (verificar.length === 0) {
             return `Curtir(${contar})`
         } else { return `Descurtir(${contar})`}
     }
 
     const DropDownOptions = (id) => {
-        
-
         return <DropDown DeletePost={DeletePost} ID={id} />
     }
 
@@ -120,13 +125,12 @@ const Feed = props => {
         <div className="content-feed">
             <div className="post-feed">
                 <CKEditor 
-                    initData="<p>Digite algo aqui ...</p>"
+                    data={post}
                     editor={Editor}
-                    value={post} 
                     onChange={(e, editor) => { HandleChange(e, editor)}}
                     config= {{
                         simpleUpload: {
-                            uploadUrl: 'http://10.3.1.95:8000/posts/upload/',
+                            uploadUrl: 'http://10.3.1.95:80/posts/upload/',
                             headers: {
                                 Authorization: `token ${localStorage.getItem('token')}`
                             }
@@ -135,8 +139,9 @@ const Feed = props => {
                             previewsInData: true,
                         }
                     }}
+
                     />
-                <Button variant="contained" id="button-post" onClick={() => {
+                <Button variant="contained" id="button-post" onClick={(e, editor) => {
                     SendPost(ContainerPost)
                     setPost("")
                 }} >Postar</Button>
@@ -155,18 +160,24 @@ const Feed = props => {
                     </div>
                     <hr></hr>
                     <div className='col1-id'>
-                        <div className='conteudo-post' dangerouslySetInnerHTML={{__html: post.post_content}}/>
-                        
+                        <div className='ck-content' dangerouslySetInnerHTML={{__html: post.post_content}}/>
                         <hr></hr>
                         <div className='conteudo-buttons'>
                             <Button variant="contained" id="curtir" onClick={() => Curtir(post)}>{NameButton(post)}</Button>
-                            <Button variant="contained" id="comentar" >Comentar (100)</Button>
+                            <Button variant="contained" id="comentar" onClick={() => {
+                                setModalIdView(post)
+                                setModalViewPost(true)
+                            }}>Comentar</Button>
                         </div>
                     </div>
                 </div>
 
             ))}
-                
+                        {modalviewpost ? <ViewPost
+                                                setModalViewPost={setModalViewPost}
+                                                modalviewpost={modalviewpost}
+                                                id={modalidview}
+                        /> : null}
             </div>
       </div>
 

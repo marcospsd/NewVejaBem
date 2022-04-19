@@ -23,7 +23,6 @@ class Comments(models.Model):
     comment_post = models.ForeignKey(Post, related_name='comment_post', on_delete=models.CASCADE)
     comment_author = models.ForeignKey(User, related_name='comments_user', on_delete=models.CASCADE)
     comment_content = RichTextUploadingField()
-    comment_likes = models.ManyToManyField(User, related_name='comments_like', null=True, blank=True)
     comment_created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

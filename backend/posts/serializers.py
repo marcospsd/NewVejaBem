@@ -38,9 +38,11 @@ class PostSerializers(serializers.ModelSerializer):
 
 
 class CommentSerializers(serializers.ModelSerializer):
+    author_name = UserPostSerializer(source='comment_author', read_only=True)
+
     class Meta:
         model = Comments
         fields = '__all__'
-        read_only_fields = ['comments_post']
+
 
 
