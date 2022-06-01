@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect, createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {api, createSession } from "../services/api";
@@ -13,16 +14,23 @@ export const AuthProvicer = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [config, setConfig] = useState([])
 
     useEffect(() => {
-        const recoveredUser = localStorage.getItem('nome');
+        const recoveredUser = localStorage.getItem('iduser');
         const token = localStorage.getItem('token');
 
         if(recoveredUser && token) {
             setUser(JSON.parse(recoveredUser));
             api.defaults.headers.Authorization = `token ${token}`
+
         }
         setLoading(false);
+
+        api.get('/auth/config/')
+        .then((res) => {
+            setConfig(res.data)
+        })
     }, []);
 
 
@@ -43,7 +51,12 @@ export const AuthProvicer = ({children}) => {
 
         api.defaults.headers.Authorization = `token ${token}`
 
-        setUser(loggedUser);
+        api.get('/auth/config/')
+        .then((res) => {
+            setConfig(res.data)
+        })
+
+        setUser(iduser);
         navigate("/")
         } catch(e){
             window.alert("Login ou senha Incorretos")
@@ -57,12 +70,12 @@ export const AuthProvicer = ({children}) => {
         localStorage.removeItem('imguser')
 
         api.defaults.headers.Authorization = null;
-
+        setConfig([])
         setUser(null);
         navigate("/login")
     };
 
     return (
-        <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout, config }}>{children}</AuthContext.Provider>
     )
 }

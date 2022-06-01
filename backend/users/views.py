@@ -7,8 +7,7 @@ from rest_framework import viewsets
 
 from rest_framework import permissions
 from rest_framework.generics import CreateAPIView
-from users.models import User
-from .serializers import UserSerializer
+from users.models import User, VariaveisAmbiente
 
 from .serializers import *
 
@@ -36,3 +35,8 @@ class CreateUserView(viewsets.ModelViewSet):
         permissions.AllowAny
     ]
     serializer_class = UserSerializer
+
+
+class VariaveisAmbienteView(viewsets.ModelViewSet):
+    queryset = VariaveisAmbiente.objects.all()
+    serializer_class = VariaveisAmbienteSerializer

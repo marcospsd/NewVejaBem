@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from users.models import User
+from users.models import User, VariaveisAmbiente
 
 
 
@@ -20,3 +20,7 @@ class UserSerializer(serializers.ModelSerializer):
         return print(conta)
 
 
+class VariaveisAmbienteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VariaveisAmbiente
+        fields = '__all__'

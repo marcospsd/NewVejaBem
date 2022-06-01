@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
-from .models import User
+from .models import User, VariaveisAmbiente
 from .forms import UserChangeForm, UserCreateForm
 
 
@@ -14,3 +14,9 @@ class UserAdmin(auth_admin.UserAdmin):
                                               "numero", "estciv", "telefone", "celular", "dateadmicao", "datenasc",
                                               "complemento", "img")}),
     )
+
+
+@admin.register(VariaveisAmbiente)
+class UserAdmin(admin.ModelAdmin):
+    model = VariaveisAmbiente
+    list_display = ('variavel', 'descricao', 'status', 'valor2', 'valor3', 'valor4' )

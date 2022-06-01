@@ -3,7 +3,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    min-width: 380px;
+    min-width: 320px;
     max-width: 100%;
     height: 95%;
     max-width: 100%;
@@ -53,16 +53,7 @@
 }
 
 
-.content-comments img {
-    width: 50px;
-    height: 50px;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    box-shadow: 0 0.12rem 0.16rem black, 0 0.24rem 0.32rem black;
-    
-}
+
 
 .text-comments h3 {
     text-align: center;
@@ -77,4 +68,14 @@
 
 #input-comments-textfield {
     width: 100%;
+}
+
+#minidata {
+    font-size: 0.6rem
+}
+
+#deletepostview {
+    position: absolute;
+    bottom: 5px;
+    right: 2px;
 }

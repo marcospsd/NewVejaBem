@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import './feed.css'
 import './ck-content.css'
 import SemIMG from '../../../../assets/sem_foto.png'
@@ -13,16 +13,31 @@ import { CircularProgress } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 import DropDown from '../../../../components/DropDown/dropdown';
 import ViewPost from '../viewpost/ViewPost'
+import Avatar from '@mui/material/Avatar';
+
+
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+
 
 
 const Feed = props => {
+    const { config, user } = useContext(AuthContext)
     const { data, mutate } = useAxios('/posts/posts/');
     const [post, setPost] = useState("")
     const { logout } = React.useContext(AuthContext);
     const iduser = localStorage.getItem('iduser')
     const [modalviewpost, setModalViewPost] = useState(null)
     const [modalidview, setModalIdView]= useState("")
+    const [alert, setAlert] = useState("")
+    const [modalalert, setModalAlert] = useState(null)
 
+    const POST = config?.filter((x) => x.variavel == 'POST_FEED_USERS')
 
     const handleLogout = () => {
         logout()
@@ -41,11 +56,13 @@ const Feed = props => {
 
     }
 
+    
+
     const ContainerPost = {
         post_content: post,
-        post_author: localStorage.getItem('iduser')
+        post_author: user
     }
-    
+
     const SendPost = async (id) => {
         if (post) {
             await api.post(`/posts/posts/`, id)
@@ -54,7 +71,8 @@ const Feed = props => {
                 setPost("")
             }))
             .catch((err) => {
-                console.log(err)
+                setAlert("Erro de Requisição, Por favor, recarregue a pagina !")
+                setModalAlert(true)
             })
         }
 
@@ -71,37 +89,15 @@ const Feed = props => {
     }
 
     const Curtir = async (post) => {
-        const res = await api.get(`/posts/posts/${post.id}/`)
-        const ver = res.data.post_likes.filter(x => x === iduser) 
-        if (ver.length === 0) {
-            await api.patch(`/posts/posts/${post.id}/`, { post_likes: [ ...post.post_likes, iduser]})
-            .then((res) => {
-                const alterar = data.map((x) => {
-                    if (x.id === post.id) {
-                        return {...x, post_likes : [... x.post_likes, 1] }
-                    } else { return x}
-                })
-                mutate(alterar, false)
-            })
-            .catch((err) => console.log(err))
-        } else {
-            const arraycheio = res.data.post_likes.filter((x) => x !== iduser)
-            await api.patch(`/posts/posts/${post.id}/`, { post_likes: arraycheio })
-            .then((res) => {
-                const alterar = data.map((x) => {
-                    if (x.id === post.id) {
-                        return {...x, post_likes : arraycheio }
-                    } else { return x}
-                })
-                mutate(alterar, false)
-            })
-            .catch((err) => console.log(err))
-        }
+        await api.put(`/posts/like/${post.id}/`, { post_likes: [ iduser ]})
+        .then((res) => {
+            mutate()
+        })
     }
 
     const NameButton = (data) => {
         const contar = data.post_likes.map(x => x).length
-        const verificar = data.post_likes.filter(x => x === iduser)
+        const verificar = data.post_likes.filter(x => x == iduser)
         if (verificar.length === 0) {
             return `Curtir(${contar})`
         } else { return `Descurtir(${contar})`}
@@ -117,13 +113,14 @@ const Feed = props => {
             .then()
             const newdado = data.filter((x) => x.id !== id)
             mutate(newdado, false)
-            
-
+        
         }
     }
+
+    
     return (
         <div className="content-feed">
-            <div className="post-feed">
+            { POST && POST[0].status == true ? <div className="post-feed">
                 <CKEditor 
                     data={post}
                     editor={Editor}
@@ -145,14 +142,14 @@ const Feed = props => {
                     SendPost(ContainerPost)
                     setPost("")
                 }} >Postar</Button>
-            </div>
+            </div> : <h5>POSTAGEM DESABILITADA PELO ADMINISTRADOR</h5> }
             <hr></hr>
             <div className='container-posts'>
             { data && data.map((post) => (
                 <div className='container-id' key={post.id}>
                     {DropDownOptions(post.id)}
                     <div className='content-post'>
-                        <img src={post.author_name.img ? post.author_name.img : SemIMG }></img>
+                        <Avatar src={post.author_name.img ? post.author_name.img : SemIMG } sx={{ width: 50, height: 50 }}></Avatar>
                         <div className='text-post'>
                             <h3>{post.author_name.first_name}</h3>
                             <p>{Datefunction(post.post_created_at)}</p>
@@ -170,13 +167,20 @@ const Feed = props => {
                             }}>Comentar</Button>
                         </div>
                     </div>
+                    <Snackbar open={modalalert} autoHideDuration={4000} onClose={() => setModalAlert(false)}>
+                        <Alert onClose={() => setModalAlert(false)} severity="error" sx={{ width: '100%' }}>
+                            {alert}
+                        </Alert>
+                    </Snackbar>
                 </div>
+
 
             ))}
                         {modalviewpost ? <ViewPost
                                                 setModalViewPost={setModalViewPost}
                                                 modalviewpost={modalviewpost}
                                                 id={modalidview}
+                                                iduser={iduser}
                         /> : null}
             </div>
       </div>

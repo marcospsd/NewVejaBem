@@ -101,3 +101,12 @@ class User(AbstractUser, models.Model):
             super().save(*args, **kwargs)
         else:
             super().save(*args, **kwargs)
+
+
+class VariaveisAmbiente(models.Model):
+    variavel = models.CharField(max_length=20)
+    descricao = models.CharField(max_length=255, blank=True, null=True)
+    status = models.BooleanField(default=False)
+    valor2 = models.CharField(max_length=50, blank=True, null=True)
+    valor3 = models.CharField(max_length=50, blank=True, null=True)
+    valor4 = models.CharField(max_length=50, blank=True, null=True)

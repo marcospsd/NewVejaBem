@@ -7,8 +7,10 @@ from rest_framework.routers import SimpleRouter
 
 router = SimpleRouter()
 router.register('posts', PostsViewSets)
+router.register('like', LikesPostViews)
 router.register('comments', CommentsViewSets)
 router.register('upload', ImagemViewSet)
+
 
 urlpatterns = [
     path('viewcomments/<desc_pk>', CommentsView.as_view(), name='desc_pk')

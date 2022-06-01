@@ -8,7 +8,11 @@ import Button from '@mui/material/Button';
 import { IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Avatar from '@mui/material/Avatar';
+import AvatarGroup from '@mui/material/AvatarGroup';
 import { api } from '../../../../services/api';
+import {mutate as MutateGlobal} from 'swr'
 
 
 
@@ -34,6 +38,20 @@ const ViewPost = (props) => {
         return news.toLocaleDateString() + " " + news.getHours() + ":" + news.getMinutes() + ":" + news.getSeconds()
     }
 
+    const Likebutton = (dado) => {
+        api.put(`/posts/like/${dado}/`, { post_likes: [props.iduser ] })
+        .then((res) => MutateGlobal(`/posts/like/${dado}/`, { ...res.data }))
+    }
+
+    const NameButton = () => {
+        const contar = props.id.post_likes.map(x => x).length
+        const verificar = props.id.post_likes.filter(x => x == props.iduser)
+        if (verificar.length === 0) {
+            return `Curtir`
+        } else { return `Descurtir`}
+    }
+
+
     return (
         <Modal
             open={props.modalviewpost}
@@ -50,7 +68,7 @@ const ViewPost = (props) => {
                         <CloseIcon/>
                     </IconButton>
                         <div className='content-post'>
-                            <img src={props.id.author_name.img ? props.id.author_name.img : SemIMG }></img>
+                            <Avatar src={props.id.author_name.img ? props.id.author_name.img : SemIMG } sx={{ width: 50, height: 50 }}></Avatar>
                             <div className='text-post'>
                                 <h3>{props.id.author_name.first_name}</h3>
                                 <p>{Datefunction(props.id.post_created_at)}</p>
@@ -61,24 +79,32 @@ const ViewPost = (props) => {
                             <div className='ck-content' dangerouslySetInnerHTML={{__html: props.id.post_content}}/>
                             <hr></hr>
                             <div className='conteudo-buttons'>
-                                <Button variant="contained" id="curtir" onClick={() => {}}>Curtir</Button>
+                                <Button variant="contained" id="curtir" onClick={() => Likebutton(props.id.id)}>{NameButton()}</Button>
+                                <AvatarGroup max={4} >
+                                    {/* {likes?.map((x) => (
+                                        <Avatar alt={x.first_name} src={x.img} sx={{ width: 30, height: 30 }} />
+                                    ))}
+                                     */}
+                                </AvatarGroup>
                             </div>
                         </div>
                     </div>
                     {data && data.map((post) => (
-                        <div className='container-posts'>
-                            <div className='container-id-comments' key={post.id}>
+                        <div className='container-posts' key={post.id}>
+                            <div className='container-id-comments'>
+                                
                                 <div className='content-comments'>
-                                    <img src={post.author_name.img ? post.author_name.img : SemIMG }></img>
+                                    <Avatar id="avatar" src={post.author_name.img ? post.author_name.img : SemIMG }></Avatar>
                                     <div className='text-comments'>
                                         <h3>{(post.author_name.first_name).split(' ').slice(0, 1).join(' ')}</h3>
-                                        {/* <p>{Datefunction(post.comment_created_at)}</p> */}
+                                        <p id="minidata">{Datefunction(post.comment_created_at)}</p>
                                     </div>
                                 </div>
                                 <hr/>
                                 <div className='col1-id'>
                                     {post.comment_content}
                                 </div>
+                                <IconButton id="deletepostview" onClick={() => {}}><DeleteIcon/></IconButton>
                             </div>
                         </div>
                     ))}

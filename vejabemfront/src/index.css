@@ -14,7 +14,10 @@ code {
 
 body {
 --primarycolor: #D8222A;
---secundarycolor: #FABA00;
-background-color: var(--primarycolor);;
+--secundarycolor: #FDB913;
+
+
+
+background-color: var(--secundarycolor);;
 
 }

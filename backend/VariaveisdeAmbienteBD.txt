@@ -1,0 +1,7 @@
+Variaveis de Ambiente para implementar na instalação.
+
+
+INSERT INTO users_variaveisambiente
+(variavel, descricao, status, valor2, valor3, valor4) 
+VALUES
+('POST_FEED_USERS', 'Usuários podem postar no Feed', true, null, null, null),

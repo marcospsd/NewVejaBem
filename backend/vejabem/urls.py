@@ -19,7 +19,7 @@ from django.urls import path, include, re_path
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from posts.urls import router
-from users.urls import routeruser
+from users.urls import routeruser, routerconfig
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +27,7 @@ urlpatterns = [
     path('posts/', include(router.urls)),
     path('posts/', include('posts.urls')),
     path('auth/create/', include(routeruser.urls)), 
+    path('auth/config/', include(routerconfig.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [re_path(r'^ckeditor/', include('ckeditor_uploader.urls')),]
