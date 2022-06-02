@@ -1,36 +1,11 @@
-.mainmenubtn {
-    background-color: none;
-    color: var(--secundarycolor);
-    border: none;
-    cursor: pointer;
-    padding: none;
-    margin-top: none;
-}
 .dropdown {
     position: absolute;
     display: inline-block;
     top: 0.4rem;
     right: 0.4rem;
 }
-.dropdown-child {
-    display: none;
-    background-color: rgb(255, 255, 255);
-    border: 1px solid black;
-    width: auto;
-    height: auto;
-}
-.dropdown-child a {
-    color: blue;
-    padding: 20px;
-    text-decoration: none;
-    display: block;
-}
-.dropdown:hover .dropdown-child {
-    display: block;
-}
 
-.dropdown-child button {
-    font-size: 0.7rem;
-    width: 10px;
-    height: 7px;
+#delete {
+    color: var(--primarycolor);
+    height: 15px;
 }

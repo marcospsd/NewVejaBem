@@ -101,8 +101,15 @@ const Feed = props => {
         } else { return `Descurtir(${contar})`}
     }
 
-    const DropDownOptions = (id) => {
-        return <DropDown DeletePost={DeletePost} ID={id} />
+    const DropDownOptions = (id, user) => {
+        if (props.user.is_staff == true) {
+            return <DropDown DeletePost={DeletePost} ID={id} />
+        } else if (user.id === iduser) {
+            return <DropDown DeletePost={DeletePost} ID={id} />
+        } else {
+            return;
+        }
+        
     }
 
     const DeletePost = async (id) => {
@@ -160,7 +167,7 @@ const Feed = props => {
             <div className='container-posts'>
             { data && data.map((post) => (
                 <div className='container-id' key={post.id}>
-                    {DropDownOptions(post.id)}
+                    {DropDownOptions(post.id, post.post_author)}
                     <div className='content-post'>
                         <Avatar src={post.author_name.img ? post.author_name.img : SemIMG } sx={{ width: 50, height: 50 }}></Avatar>
                         <div className='text-post'>
@@ -194,6 +201,7 @@ const Feed = props => {
                                                 modalviewpost={modalviewpost}
                                                 id={modalidview}
                                                 iduser={iduser}
+                                                user={props.user}
                         /> : null}
             </div>
       </div>

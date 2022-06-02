@@ -12,7 +12,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import { api } from '../../../../services/api';
-import {mutate as MutateGlobal} from 'swr'
 
 
 
@@ -34,16 +33,18 @@ const ViewPost = (props) => {
 
 
     const SendComment = (id) => {
-        const coment = {
-            comment_content: comentario,
-            comment_author: localStorage.getItem('iduser'),
-            comment_post: props.id,
+        if(comentario) {
+            const coment = {
+                comment_content: comentario,
+                comment_author: localStorage.getItem('iduser'),
+                comment_post: id,
+            }
+            api.post(`/posts/comments/`, coment)
+            .then((res) => {
+                mutate()
+                setComentario("")
+            })
         }
-        api.post(`/posts/comments/`, coment)
-        .then((res) => {
-            mutate()
-            setComentario("")
-        })
     }
 
     const Datefunction = (id) => {
@@ -66,6 +67,25 @@ const ViewPost = (props) => {
         } else { return `Descurtir`}
     }
 
+    const DeleteComment = (id) => {
+        if (window.confirm("Deseja deletar o comentário ?")) {
+            api.delete(`/posts/comments/${id}/`)
+            .then((res) => {
+                const NewData = data.filter((x) => x.id !== id)
+                mutate(NewData, false)
+            })
+        }
+    }
+
+    const DropDownOptions = (id, user) => {
+        if (props.user.is_staff == true) {
+            return <IconButton id="deletepostview" onClick={() => DeleteComment(id)}><DeleteIcon/></IconButton>
+        } else if (user.pk === props.iduser) {
+            return <IconButton id="deletepostview" onClick={() => DeleteComment(id)}><DeleteIcon/></IconButton>
+        } else {
+            return;
+        }
+    }
 
     return (
         <Modal
@@ -79,9 +99,11 @@ const ViewPost = (props) => {
             <Box id='modal-view-post'>
                 <div className='container-comments'>
                     <div className='container-id' key={post.data.id}>
+
                     <IconButton id='button-close' onClick={() => {props.setModalViewPost(null)}}>
                         <CloseIcon/>
                     </IconButton>
+
                         <div className='content-post'>
                             <Avatar src={post.data.author_name.img ? post.data.author_name.img : SemIMG } sx={{ width: 50, height: 50 }}></Avatar>
                             <div className='text-post'>
@@ -119,14 +141,16 @@ const ViewPost = (props) => {
                                 <div className='col1-id'>
                                     {post.comment_content}
                                 </div>
-                                <IconButton id="deletepostview" onClick={() => {}}><DeleteIcon/></IconButton>
+                                { 
+                                DropDownOptions(post.id, post.author_name)
+                                }
                             </div>
                         </div>
                     ))}
                 </div>
                 <div className='input-comments'>
                     <TextField id="input-comments-textfield" label="" variant="outlined" value={comentario} onChange={(e) => setComentario(e.target.value)}fullWidth/>
-                    <IconButton onClick={() => SendComment()}>
+                    <IconButton onClick={() => SendComment(props.id)}>
                         <SendIcon/>
                     </IconButton>
                 </div>

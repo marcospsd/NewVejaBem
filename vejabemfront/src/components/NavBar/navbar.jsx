@@ -59,7 +59,7 @@ const Navbar = (props) => {
       
 
       case 'Perfil':
-        return navigate('/')
+        return navigate('/profile')
       case 'Alterar Senha':
         return navigate('/')
       case 'Logout':
@@ -124,7 +124,7 @@ const Navbar = (props) => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            <img src={IMGLogoB} id='imglogoappbar'/>
+            <img src={IMGLogo} id='imglogoappbar'/>
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

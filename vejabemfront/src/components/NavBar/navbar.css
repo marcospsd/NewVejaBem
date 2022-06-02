@@ -19,11 +19,11 @@
 
 @media (max-width: 700px) {
     #appbar {
-        background-color: var(--primarycolor);
+        background-color: white;
     }
     
     #appbar * {
-        color: var(--secundarycolor);
+        color: var(--primarycolor);
     }
     
     #imglogoappbar {

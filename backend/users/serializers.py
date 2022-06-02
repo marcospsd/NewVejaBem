@@ -4,12 +4,16 @@ from users.models import User, VariaveisAmbiente
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True)
+    password = serializers.CharField(write_only=True, required=False)
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', "last_name", 'email', 'password', 'img']
+        fields = ['id', 'username', 'first_name', "last_name", 'email', 'password', 'img', 'is_staff',
+            'cargo','setor', 'filial', 'cep', 'rua', 'bairro', 'cidade', 'numero','biografia', 'estciv',
+             'telefone', 'celular', 'dateadmicao', 'complemento',
+        
+        ]
 
-    def save(self):
+    def create(self, validated_data):
         conta = User.objects.create(
             username=self.validated_data['username'],
             first_name=self.validated_data['first_name'],

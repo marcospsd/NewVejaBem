@@ -1,7 +1,8 @@
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 import LoginPage from "./pages/login/login";
-import FeedPage from "./pages/index/index"
+import FeedPage from "./pages/index/index";
+import ProfilePage from "./pages/pofile/profile";
 import { AuthProvicer, AuthContext } from "./contexts/auth";
 import { useContext } from "react";
 
@@ -29,6 +30,7 @@ const AppRoutes = () => {
                 <Routes>
                     <Route exact path="/login" element={<LoginPage/>} />
                     <Route exact path="/" element={<Private><FeedPage/></Private>} />
+                    <Route exact path="/profile" element={<Private><ProfilePage/></Private>} />
                 </Routes>
             </AuthProvicer>
         </BrowserRouter>
