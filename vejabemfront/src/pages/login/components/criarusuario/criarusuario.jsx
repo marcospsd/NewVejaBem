@@ -34,9 +34,9 @@ const ModalCreateUser = ({setOpenCreate, opencreate}) => {
 
     const CriarLogin = async () => {
         const dados = {
-            first_name: nome,
-            username: user,
-            password: password,
+            first_name: nome.toUpperCase(),
+            username: user.toLowerCase(),
+            password: password.toLowerCase(),
             email: email
         }
         await api.post('/auth/create/', dados)

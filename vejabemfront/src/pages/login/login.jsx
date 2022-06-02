@@ -23,7 +23,7 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        login(username, password)
+        login(username.toLowerCase(), password.toLowerCase())
     };
 
     return (

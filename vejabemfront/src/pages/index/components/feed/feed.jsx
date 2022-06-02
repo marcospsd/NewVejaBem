@@ -37,8 +37,7 @@ const Feed = props => {
     const [alert, setAlert] = useState("")
     const [modalalert, setModalAlert] = useState(null)
 
-    const POST = config?.filter((x) => x.variavel == 'POST_FEED_USERS')
-
+    
     const handleLogout = () => {
         logout()
 
@@ -117,32 +116,47 @@ const Feed = props => {
         }
     }
 
+    const PostHabilitado = () => {
+        if (config) {
+            const POST = config.filter((x) => x.variavel == 'POST_FEED_USERS')
+            if (POST[0].status === true) {
+                return (
+                    <div className="post-feed">
+                        <CKEditor 
+                            data={post}
+                            editor={Editor}
+                            onChange={(e, editor) => { HandleChange(e, editor)}}
+                            config= {{
+                                simpleUpload: {
+                                    uploadUrl: 'http://10.3.1.95:80/posts/upload/',
+                                    headers: {
+                                        Authorization: `token ${localStorage.getItem('token')}`
+                                    }
+                                },
+                                mediaEmbed: {
+                                    previewsInData: true,
+                                }
+                            }}
+        
+                            />
+                        <Button variant="contained" id="button-post" onClick={(e, editor) => {
+                            SendPost(ContainerPost)
+                            setPost("")
+                        }} >Postar</Button>
+                    </div> 
+                    )
+            } else { 
+                return <h3 id="variavelambiente"> POST DESABILITADO PELO ADMINISTRADOR </h3>
+            }
+        
+        }
+        return (<CircularProgress/>)
+    }
+
     
     return (
         <div className="content-feed">
-            { POST && POST[0].status == true ? <div className="post-feed">
-                <CKEditor 
-                    data={post}
-                    editor={Editor}
-                    onChange={(e, editor) => { HandleChange(e, editor)}}
-                    config= {{
-                        simpleUpload: {
-                            uploadUrl: 'http://10.3.1.95:80/posts/upload/',
-                            headers: {
-                                Authorization: `token ${localStorage.getItem('token')}`
-                            }
-                        },
-                        mediaEmbed: {
-                            previewsInData: true,
-                        }
-                    }}
-
-                    />
-                <Button variant="contained" id="button-post" onClick={(e, editor) => {
-                    SendPost(ContainerPost)
-                    setPost("")
-                }} >Postar</Button>
-            </div> : <h5>POSTAGEM DESABILITADA PELO ADMINISTRADOR</h5> }
+            {  PostHabilitado() }
             <hr></hr>
             <div className='container-posts'>
             { data && data.map((post) => (

@@ -14,7 +14,7 @@ class Post(models.Model):
     post_content = RichTextUploadingField()
     post_created_at = models.DateTimeField(auto_now_add=True)
     post_author = models.ForeignKey(User, related_name='user_post', on_delete=models.CASCADE)
-    post_likes = models.ManyToManyField(User, related_name='posts_like')
+    post_likes = models.ManyToManyField(User, related_name='posts_like', blank=True)
 
     def __str__(self):
         return str(self.pk)

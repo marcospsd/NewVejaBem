@@ -14,7 +14,7 @@ export const AuthProvicer = ({children}) => {
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [config, setConfig] = useState([])
+    const [config, setConfig] = useState(null)
 
     useEffect(() => {
         const recoveredUser = localStorage.getItem('iduser');
@@ -25,11 +25,14 @@ export const AuthProvicer = ({children}) => {
             api.defaults.headers.Authorization = `token ${token}`
 
         }
-        setLoading(false);
-
         api.get('/auth/config/')
         .then((res) => {
             setConfig(res.data)
+
+
+        setLoading(false);
+
+
         })
     }, []);
 
@@ -70,7 +73,7 @@ export const AuthProvicer = ({children}) => {
         localStorage.removeItem('imguser')
 
         api.defaults.headers.Authorization = null;
-        setConfig([])
+        setConfig(null)
         setUser(null);
         navigate("/login")
     };
