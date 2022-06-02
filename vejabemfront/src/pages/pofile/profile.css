@@ -44,9 +44,13 @@
    color: white;
 }
 
+#avatarphotocam {
+   background-color: var(--primarycolor);
+}
 
 #photocam {
-   color: black;
-   width: 50px;
-   height: 50px;
+   
+   color: white;
+   width: 25px;
+   height: 25px;
 }

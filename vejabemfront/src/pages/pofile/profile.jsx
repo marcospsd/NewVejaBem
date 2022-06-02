@@ -55,7 +55,7 @@ const ProfilePage = (props) => {
                                 overlap="circular"
                                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                                 badgeContent={
-                                    <PhotoCameraIcon id="photocam" />
+                                    <Avatar id="avatarphotocam" ><PhotoCameraIcon id="photocam" /></Avatar>
                                 }
                                 >
                                 <Avatar id="avatar" src={user.img} sx={{ width: 150, height: 150 }}><input type="file"/></Avatar>
