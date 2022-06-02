@@ -27,11 +27,10 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 
 const Feed = props => {
-    const { config, user } = useContext(AuthContext)
     const { data, mutate } = useAxios('/posts/posts/');
     const [post, setPost] = useState("")
-    const { logout } = React.useContext(AuthContext);
-    const iduser = localStorage.getItem('iduser')
+    const { logout } = useContext(AuthContext);
+    const iduser = props.user.id;
     const [modalviewpost, setModalViewPost] = useState(null)
     const [modalidview, setModalIdView]= useState("")
     const [alert, setAlert] = useState("")
@@ -59,7 +58,7 @@ const Feed = props => {
 
     const ContainerPost = {
         post_content: post,
-        post_author: user
+        post_author: props.user.id
     }
 
     const SendPost = async (id) => {
@@ -117,8 +116,8 @@ const Feed = props => {
     }
 
     const PostHabilitado = () => {
-        if (config) {
-            const POST = config.filter((x) => x.variavel == 'POST_FEED_USERS')
+        if (props.config) {
+            const POST = props.config.filter((x) => x.variavel == 'POST_FEED_USERS')
             if (POST[0].status === true) {
                 return (
                     <div className="post-feed">
@@ -176,7 +175,7 @@ const Feed = props => {
                         <div className='conteudo-buttons'>
                             <Button variant="contained" id="curtir" onClick={() => Curtir(post)}>{NameButton(post)}</Button>
                             <Button variant="contained" id="comentar" onClick={() => {
-                                setModalIdView(post)
+                                setModalIdView(post.id)
                                 setModalViewPost(true)
                             }}>Comentar</Button>
                         </div>

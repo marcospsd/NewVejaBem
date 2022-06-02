@@ -141,7 +141,7 @@ const Navbar = (props) => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={localStorage.getItem('imguser') ? localStorage.getItem('imguser') : SemIMG} />
+                <Avatar alt="Remy Sharp" src={props.user.img ? props.user.img : SemIMG} />
               </IconButton>
             </Tooltip>
             <Menu

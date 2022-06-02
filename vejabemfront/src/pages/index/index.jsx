@@ -1,38 +1,32 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import DadosUser from './components/dadosuser/dadosuser';
 import Feed from './components/feed/feed';
 import News from './components/news/news';
 import './index.css'
 import { api } from '../../services/api'
 import NavBar from '../../components/NavBar/navbar';
+import { AuthContext } from '../../contexts/auth';
 
 
 
 
 const FeedPage = () => {
-    const iduser = localStorage.getItem('iduser')
-    const [user, setUser] = useState([])
+    const { user, config } = useContext(AuthContext)
 
-    useEffect(() => {
-        api.get(`/auth/create/${iduser}/`)
-          .then(user => {
-              setUser(user.data)
-              if (user.data.img) {
-                localStorage.setItem('imguser', user.data.img)
-              }
-            })
-      }, [])
+    if (!user) {
+        return <p>Carregando ...</p>
+    }
 
     return(
         <>
-        <NavBar/>
+        <NavBar user={user}/>
         <div className='container-page-feed'>
             
             <div className='container-user'>
                 <DadosUser data={user}/>
             </div>
             <div className='container-feed'>
-                <Feed />
+                <Feed user={user} config={config} />
             </div>
             <div className='container-news'>
                 <News/>

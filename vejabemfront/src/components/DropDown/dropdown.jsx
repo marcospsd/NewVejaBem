@@ -7,11 +7,11 @@ import Button from '@mui/material/Button';
 
 const DropDown = ({DeletePost, ID}) => {
   return (
-    <div class="dropdown">
+    <div className="dropdown">
         <IconButton className='mainmenubtn'>
             <ArrowDropDownIcon/>
         </IconButton>
-        <div class="dropdown-child">
+        <div className="dropdown-child">
             <Button variant="text" onClick={() => DeletePost(ID)}>Excluir</Button>
         </div>
     </div>

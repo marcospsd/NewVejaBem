@@ -11,6 +11,7 @@ export const AuthContext = createContext();
 
 export const AuthProvicer = ({children}) => {
     const navigate = useNavigate();
+    const [activo, setActivo] = useState(null)
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -21,19 +22,20 @@ export const AuthProvicer = ({children}) => {
         const token = localStorage.getItem('token');
 
         if(recoveredUser && token) {
-            setUser(JSON.parse(recoveredUser));
             api.defaults.headers.Authorization = `token ${token}`
-
+            api.get(`/auth/create/${recoveredUser}/`)
+            .then(user => {
+                setUser(user.data)
+            });
+            api.get('/auth/config/')
+            .then((res) => {
+                setConfig(res.data)
+      
+            });
+            
         }
-        api.get('/auth/config/')
-        .then((res) => {
-            setConfig(res.data)
-
-
+        setActivo(recoveredUser)
         setLoading(false);
-
-
-        })
     }, []);
 
 
@@ -50,16 +52,19 @@ export const AuthProvicer = ({children}) => {
         localStorage.setItem("nome", JSON.stringify(loggedUser));
         localStorage.setItem("token", token);
         localStorage.setItem('iduser', iduser);
-    
 
         api.defaults.headers.Authorization = `token ${token}`
+
+        api.get(`/auth/create/${iduser}/`)
+        .then(user => {
+            setUser(user.data)
+          })
 
         api.get('/auth/config/')
         .then((res) => {
             setConfig(res.data)
         })
-
-        setUser(iduser);
+        setActivo(loggedUser)
         navigate("/")
         } catch(e){
             window.alert("Login ou senha Incorretos")
@@ -70,7 +75,6 @@ export const AuthProvicer = ({children}) => {
         localStorage.removeItem("nome")
         localStorage.removeItem("token")
         localStorage.removeItem("iduser")
-        localStorage.removeItem('imguser')
 
         api.defaults.headers.Authorization = null;
         setConfig(null)
@@ -79,6 +83,6 @@ export const AuthProvicer = ({children}) => {
     };
 
     return (
-        <AuthContext.Provider value={{ authenticated: !!user, user, loading, login, logout, config }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ authenticated: !!activo, activo, loading, login, logout, config, user }}>{children}</AuthContext.Provider>
     )
 }

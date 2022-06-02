@@ -17,14 +17,27 @@ import {mutate as MutateGlobal} from 'swr'
 
 
 const ViewPost = (props) => {
-    const {data, mutate} = useAxios(`/posts/viewcomments/${props.id.id}`)    
+    const post = useAxios(`/posts/posts/${props.id}/`)
+    const likes = useAxios(`/posts/like/${props.id}/`)
+    const {data, mutate} = useAxios(`/posts/viewcomments/${props.id}`)    
     const [comentario, setComentario] = useState("")
+
+    if (!data) {
+        return <p>carregando ... </p>
+    }
+    if (!post.data) {
+        return <p>carregando ... </p>
+    }
+    if (!likes) {
+        return <p>carregando ... </p>
+    }
+
 
     const SendComment = (id) => {
         const coment = {
             comment_content: comentario,
             comment_author: localStorage.getItem('iduser'),
-            comment_post: props.id.id,
+            comment_post: props.id,
         }
         api.post(`/posts/comments/`, coment)
         .then((res) => {
@@ -40,12 +53,14 @@ const ViewPost = (props) => {
 
     const Likebutton = (dado) => {
         api.put(`/posts/like/${dado}/`, { post_likes: [props.iduser ] })
-        .then((res) => MutateGlobal(`/posts/like/${dado}/`, { ...res.data }))
+        .then((res) => {
+            post.mutate()
+            likes.mutate()
+        })
     }
 
-    const NameButton = () => {
-        const contar = props.id.post_likes.map(x => x).length
-        const verificar = props.id.post_likes.filter(x => x == props.iduser)
+    const NameButton = (data) => {
+        const verificar = data.post_likes.filter(x => x === props.iduser)
         if (verificar.length === 0) {
             return `Curtir`
         } else { return `Descurtir`}
@@ -63,28 +78,28 @@ const ViewPost = (props) => {
             >
             <Box id='modal-view-post'>
                 <div className='container-comments'>
-                    <div className='container-id' key={props.id.id}>
+                    <div className='container-id' key={post.data.id}>
                     <IconButton id='button-close' onClick={() => {props.setModalViewPost(null)}}>
                         <CloseIcon/>
                     </IconButton>
                         <div className='content-post'>
-                            <Avatar src={props.id.author_name.img ? props.id.author_name.img : SemIMG } sx={{ width: 50, height: 50 }}></Avatar>
+                            <Avatar src={post.data.author_name.img ? post.data.author_name.img : SemIMG } sx={{ width: 50, height: 50 }}></Avatar>
                             <div className='text-post'>
-                                <h3>{props.id.author_name.first_name}</h3>
-                                <p>{Datefunction(props.id.post_created_at)}</p>
+                                <h3>{post.data.author_name.first_name}</h3>
+                                <p>{Datefunction(post.data.post_created_at)}</p>
                             </div>
                         </div>
                         <hr></hr>
                         <div className='col1-id'>
-                            <div className='ck-content' dangerouslySetInnerHTML={{__html: props.id.post_content}}/>
+                            <div className='ck-content' dangerouslySetInnerHTML={{__html: post.data.post_content}}/>
                             <hr></hr>
-                            <div className='conteudo-buttons'>
-                                <Button variant="contained" id="curtir" onClick={() => Likebutton(props.id.id)}>{NameButton()}</Button>
-                                <AvatarGroup max={4} >
-                                    {/* {likes?.map((x) => (
-                                        <Avatar alt={x.first_name} src={x.img} sx={{ width: 30, height: 30 }} />
-                                    ))}
-                                     */}
+                            <div className='conteudo-buttonsview'>
+                                <Button variant="contained" id="curtir" onClick={() => Likebutton(post.data.id)}>{NameButton(post.data)}</Button>
+                                <AvatarGroup id="likesimg" max={4}>
+                                    {likes.data ? likes?.data.usuarios.map((x) => (
+                                        <Avatar alt={x.first_name} src={x.img} sx={{ width: 30, height: 30 }} key={x.first_name}/>
+                                    )) : null}
+                                    
                                 </AvatarGroup>
                             </div>
                         </div>

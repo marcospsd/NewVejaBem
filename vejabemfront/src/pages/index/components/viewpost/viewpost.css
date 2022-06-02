@@ -79,3 +79,17 @@
     bottom: 5px;
     right: 2px;
 }
+
+#likesimg {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.conteudo-buttonsview #curtir {
+    background-color: var(--primarycolor);
+    height: 23px;
+    width: 130px;
+    font-size: 0.7rem;
+    margin: 0.3rem;
+} 
