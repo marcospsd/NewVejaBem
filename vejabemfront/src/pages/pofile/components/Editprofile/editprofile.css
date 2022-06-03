@@ -1,0 +1,33 @@
+#box-modal-profile-edit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 350px;
+    max-width: 100%;
+    min-height: 400px;
+    max-height: 800px;
+    background: whitesmoke;
+    border: 2px solid #000;
+    size: 4;
+    color: rgb(0, 0, 0);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    overflow: overlay;
+
+}
+
+#box-modal-profile-edit::-webkit-scrollbar {
+    width: 0px;
+}
+
+.button-editprofile {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.button-editprofile #button-post {
+    background-color: var(--primarycolor);
+}

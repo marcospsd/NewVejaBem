@@ -149,7 +149,7 @@ const ViewPost = (props) => {
                     ))}
                 </div>
                 <div className='input-comments'>
-                    <TextField id="input-comments-textfield" label="" variant="outlined" value={comentario} onChange={(e) => setComentario(e.target.value)}fullWidth/>
+                    <TextField id="input-comments-textfield" inputProps={{ maxLength: '255' }} variant="outlined" value={comentario} onChange={(e) => setComentario(e.target.value)} fullWidth/>
                     <IconButton onClick={() => SendComment(props.id)}>
                         <SendIcon/>
                     </IconButton>

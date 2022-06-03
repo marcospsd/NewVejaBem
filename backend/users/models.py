@@ -90,8 +90,8 @@ class User(AbstractUser, models.Model):
     estciv = models.CharField(blank=True, max_length=1, null=True, choices=ESTADOCIVIL_USUARIO)
     telefone = models.CharField(blank=True, max_length=11, null=True)
     celular = models.CharField(blank=True, max_length=11, null=True)
-    dateadmicao = models.DateField(blank=True, null=True)
-    datenasc = models.DateField(blank=True, null=True)
+    dateadmicao = models.CharField(max_length=10, blank=True, null=True)
+    datenasc = models.CharField(max_length=10, blank=True, null=True)
     img = models.ImageField(upload_to=get_file_path, blank=True, null=True)
 
     def save(self, *args, **kwargs):

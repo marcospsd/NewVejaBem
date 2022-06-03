@@ -14,10 +14,12 @@ import HouseIcon from '@mui/icons-material/House';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import EditProfileModal from './components/Editprofile/editprofile';
 
 
 const ProfilePage = (props) => {
-    const { user, config } = useContext(AuthContext)
+    const { user, setUser } = useContext(AuthContext)
+    const [openeditmodal, setOpenEditModal] = useState(null)
 
     if (!user) {
         return <p>Carregando ...</p>
@@ -28,14 +30,14 @@ const ProfilePage = (props) => {
         formData.append("img", event.target.files[0])
         formData.append("username", user.username)
         api.patch(`/auth/create/${user.id}/`, formData, { headers : { 'Content-Type' : 'multipart/form-data'}})
-        .then((res) => console.log(res))
+        .then((res) => setUser(res.data))
     }
 
-    console.log(user)
 
     const DateFunction = (id) => {
-        const nd = new Date(id)
-        return nd.getFullYear()
+        const nd = id.replace(/[^0-9]/, '')
+        const nde = nd.substring(5, 9) 
+        return nde
     } 
     return(
         <>
@@ -73,13 +75,14 @@ const ProfilePage = (props) => {
                     {user.biografia && <><p><AssignmentIcon/> Sobre mim:</p><p><b>{user.biografia}</b></p></>}
                 </div>
                 <div className="ButtonsProfile">
-                    <Button variant="contained" id="button-post" >Editar Perfil</Button>
+                    <Button variant="contained" id="button-post" onClick={() => setOpenEditModal(true)} >Editar Perfil</Button>
                 </div>
             </div>
             <div className='container-news'>
                 <News/>
             </div>
         </div>
+        {openeditmodal && <EditProfileModal user={user} setUser={setUser} openeditmodal={openeditmodal} setOpenEditModal={setOpenEditModal}/>}
         </>
                 
     )
