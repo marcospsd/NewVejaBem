@@ -24,11 +24,12 @@
 .container-user, .container-news {
     background-color: white;
     width: 300px;
-    height: 400px;
+    min-height: 400px;
     max-width: 100%;
     padding: 1.5rem;
     margin: 1rem;
     border-radius: 1.5rem;
+    word-break: break-word;
     -webkit-box-shadow: 9px 7px 5px rgba(50, 50, 50, 0.77);
 	-moz-box-shadow:    9px 7px 5px rgba(50, 50, 50, 0.77);
 	box-shadow:         9px 7px 5px rgba(50, 50, 50, 0.77);

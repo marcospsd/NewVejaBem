@@ -163,3 +163,14 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
+
+
+#Email BackEnd
+
+DEFAULT_FROM_EMAIL = "noreply@dinizvitoria.com.br"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST_USER = 'noreply@dinizvitoria.com.br'
+EMAIL_HOST_PASSWORD = 'dnz10203040'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST = 'smtp.gmail.com'

@@ -34,7 +34,7 @@ const ModalCreateUser = ({setOpenCreate, opencreate}) => {
 
     const CriarLogin = async () => {
         const dados = {
-            first_name: nome.toUpperCase(),
+            first_name: nome,
             username: user.toLowerCase(),
             password: password.toLowerCase(),
             email: email

@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import { api } from '../../../../services/api';
+import LikeList from './components/likeslist/likelist';
 
 
 
@@ -20,6 +21,8 @@ const ViewPost = (props) => {
     const likes = useAxios(`/posts/like/${props.id}/`)
     const {data, mutate} = useAxios(`/posts/viewcomments/${props.id}`)    
     const [comentario, setComentario] = useState("")
+    const [likeslist, setLikesList] = useState(null)
+    const [likesanchorElNav, setlikesAnchorElNav] = React.useState(null);
 
     if (!data) {
         return <p>carregando ... </p>
@@ -117,12 +120,15 @@ const ViewPost = (props) => {
                             <hr></hr>
                             <div className='conteudo-buttonsview'>
                                 <Button variant="contained" id="curtir" onClick={() => Likebutton(post.data.id)}>{NameButton(post.data)}</Button>
-                                <AvatarGroup id="likesimg" max={4}>
+                                <AvatarGroup id="likesimg" max={4} onClick={(e) => {
+                                        setlikesAnchorElNav(e.currentTarget)
+                                        setLikesList(true)
+                                }}>
                                     {likes.data ? likes?.data.usuarios.map((x) => (
                                         <Avatar alt={x.first_name} src={x.img} sx={{ width: 30, height: 30 }} key={x.first_name}/>
                                     )) : null}
-                                    
                                 </AvatarGroup>
+                                 {likeslist && <LikeList likes={likes.data} likeslist={likeslist} setLikesList={setLikesList} likesanchorElNav={likesanchorElNav} setlikesAnchorElNav={setlikesAnchorElNav}/>}
                             </div>
                         </div>
                     </div>

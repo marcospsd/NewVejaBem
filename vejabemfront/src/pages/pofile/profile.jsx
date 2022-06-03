@@ -70,7 +70,7 @@ const ProfilePage = (props) => {
                 </div>
                 <div className="profile-data">
                     {user.cargo && <p><WorkIcon /> Sou <b>{user.cargo}</b></p>}
-                    {user.dateadmicao && <p><PsychologyIcon/> Trabalho na Diniz desde <b>{DateFunction(user.dateadmicao)}</b></p>}
+                    {user.dateadmicao && <p><PsychologyIcon/> Trabalho nas Óticas Diniz desde <b>{DateFunction(user.dateadmicao)}</b></p>}
                     {user.cidade && <p><HouseIcon/> Moro em <b>{user.cidade}</b></p>}
                     {user.biografia && <><p><AssignmentIcon/> Sobre mim:</p><p><b>{user.biografia}</b></p></>}
                 </div>

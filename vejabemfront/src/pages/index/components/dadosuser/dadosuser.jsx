@@ -16,8 +16,7 @@ const DadosUser = ({data}) => {
         <div className='content-user'>
             <Avatar src={data.img ? data.img : SemIMG} sx={{ width: 230, height: 230 }}/>
             <h1>{nomepessoa()}</h1>
-            {/* <label>{data.cargo}</label> */}
-            
+            <h3>{data.cargo}</h3>
         </div>
     )
 }
