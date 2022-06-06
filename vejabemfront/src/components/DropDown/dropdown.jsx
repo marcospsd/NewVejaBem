@@ -26,7 +26,7 @@ const DropDown = ({DeletePost, ID}) => {
             <ArrowDropDownIcon/>
         </IconButton>
         <Menu 
-        open={anchorElNav} 
+        open={Boolean(anchorElNav)} 
         onClose={handleCloseNavMenu}
         anchorOrigin={{
           vertical: 'bottom',
@@ -40,7 +40,7 @@ const DropDown = ({DeletePost, ID}) => {
         }}
         >
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
-              
+              <Button id="delete" variant="text" onClick={() => DeletePost(ID)}>Excluir</Button>
           </Box>
         </Menu>
 

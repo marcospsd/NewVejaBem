@@ -60,7 +60,7 @@ const ProfilePage = (props) => {
                                     <Avatar id="avatarphotocam" ><PhotoCameraIcon id="photocam" /></Avatar>
                                 }
                                 >
-                                <Avatar id="avatar" src={user.img} sx={{ width: 150, height: 150 }}><input type="file"/></Avatar>
+                                <Avatar id="avatar" alt={user.first_name} src={user.img} sx={{ width: 150, height: 150 }}></Avatar>
                             </Badge>
                         </IconButton>
                         

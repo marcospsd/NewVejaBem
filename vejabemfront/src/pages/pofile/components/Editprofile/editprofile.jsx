@@ -22,9 +22,11 @@ const EditProfileModal = (props) => {
     const [dateadmicao, setDateAdm] = useState(props.user.dateadmicao)
     const [estciv, setEstCivil] = useState(props.user.estciv)
     const [biografia, setBiografia] = useState(props.user.biografia)
+    const [travabutton, setTravaButton] = useState(null)
 
 
     const AtualizarUser = () => {
+        setTravaButton(true)
         const newUser = {
             first_name: first_name,
             last_name: last_name,
@@ -45,6 +47,14 @@ const EditProfileModal = (props) => {
         .then((res) => {
             props.setUser(res.data)
             alert("Atualizado com Sucesso ! ")
+            props.setOpenEditModal(null)
+            setTravaButton(false)
+            
+        })
+        .catch((e) => {
+            
+            alert("Erro de conexão com servidor ... por favor tente novamente mais tarde")
+            setTravaButton(null)
         })
     }
     
@@ -180,7 +190,7 @@ const EditProfileModal = (props) => {
                     />
             </div>
             <div className="button-editprofile">
-                <Button variant="contained" id="button-post" onClick={() => {AtualizarUser()}} >Atualizar Perfil</Button>
+                <Button variant="contained" id="button-post" onClick={() => {AtualizarUser()}} inputProps={{ maxLength: '254' }} disabled={travabutton}>Atualizar Perfil</Button>
             </div>
 
 

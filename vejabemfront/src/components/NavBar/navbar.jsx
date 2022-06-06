@@ -89,7 +89,7 @@ const Navbar = (props) => {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <MenuIcon />
+              <MenuIcon id="menuicon" />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -111,7 +111,7 @@ const Navbar = (props) => {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center" id="menuicon">{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -130,6 +130,7 @@ const Navbar = (props) => {
                 key={page}
                 onClick={() => handleCloseNavMenu(page)}
                 sx={{ my: 2, color: 'white', display: 'block' }}
+                id="menuicon"
               >
                 {page}
               </Button>
@@ -137,9 +138,9 @@ const Navbar = (props) => {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Configurações">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={props.user.img ? props.user.img : SemIMG} />
+                <Avatar alt={props.user.first_name} src={props.user.img} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -160,7 +161,7 @@ const Navbar = (props) => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={() => handleCloseUserMenu(setting)}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Typography textAlign="center" id="menuicon">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>

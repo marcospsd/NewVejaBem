@@ -4,7 +4,7 @@
         background-color: white;
     }
 
-    #appbar * {
+    #appbar #menuicon {
         color: var(--primarycolor);
     }
     
@@ -22,7 +22,7 @@
         background-color: white;
     }
     
-    #appbar * {
+    #appbar #menuicon {
         color: var(--primarycolor);
     }
     

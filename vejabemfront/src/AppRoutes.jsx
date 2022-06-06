@@ -5,6 +5,7 @@ import FeedPage from "./pages/index/index";
 import ProfilePage from "./pages/pofile/profile";
 import { AuthProvicer, AuthContext } from "./contexts/auth";
 import { useContext } from "react";
+import ProfileUser from "./pages/profileuser/profileuser";
 
 
 
@@ -31,6 +32,7 @@ const AppRoutes = () => {
                     <Route exact path="/login" element={<LoginPage/>} />
                     <Route exact path="/" element={<Private><FeedPage/></Private>} />
                     <Route exact path="/profile" element={<Private><ProfilePage/></Private>} />
+                    <Route path="/user/:id" element={<Private><ProfileUser /></Private>} />
                 </Routes>
             </AuthProvicer>
         </BrowserRouter>

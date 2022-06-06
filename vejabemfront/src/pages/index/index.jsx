@@ -6,6 +6,7 @@ import './index.css'
 import { api } from '../../services/api'
 import NavBar from '../../components/NavBar/navbar';
 import { AuthContext } from '../../contexts/auth';
+import LoadingPage from '../../components/Loading/loading';
 
 
 
@@ -14,7 +15,7 @@ const FeedPage = () => {
     const { user, config } = useContext(AuthContext)
 
     if (!user) {
-        return <p>Carregando ...</p>
+        return <LoadingPage/>
     }
 
     return(

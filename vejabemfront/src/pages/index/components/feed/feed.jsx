@@ -9,7 +9,7 @@ import { api } from '../../../../services/api'
 import useAxios from '../../../../hooks/useAxios'
 import { AuthContext } from '../../../../contexts/auth'
 import IconButton from '@mui/material/IconButton';
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, popoverClasses } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
 import DropDown from '../../../../components/DropDown/dropdown';
 import ViewPost from '../viewpost/ViewPost'
@@ -18,6 +18,8 @@ import Avatar from '@mui/material/Avatar';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import LoadingPage from '../../../../components/Loading/loading';
+import { useNavigate } from 'react-router-dom';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -27,6 +29,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 
 const Feed = props => {
+    const navigate = useNavigate()
     const { data, mutate } = useAxios('/posts/posts/');
     const [post, setPost] = useState("")
     const { logout } = useContext(AuthContext);
@@ -35,7 +38,7 @@ const Feed = props => {
     const [modalidview, setModalIdView]= useState("")
     const [alert, setAlert] = useState("")
     const [modalalert, setModalAlert] = useState(null)
-
+    const [travaButton, setTravaButton] = useState(null)
     
     const handleLogout = () => {
         logout()
@@ -44,12 +47,7 @@ const Feed = props => {
     
     if (!data) {
         return (
-            <div className='carregando-post'>
-                <CircularProgress />
-                <p><label>Carregando conteudo ...</label></p>
-                <p><label>Caso não carregue dentro de alguns segundos, clique no item abaixo e faça login novamente...</label></p>
-                <IconButton onClick={() => handleLogout()}><LogoutIcon/></IconButton>
-            </div>
+            <LoadingPage/>
         )
 
     }
@@ -67,10 +65,12 @@ const Feed = props => {
             .then((res => {
                 mutate()
                 setPost("")
+                setTravaButton(null)
             }))
             .catch((err) => {
                 setAlert("Erro de Requisição, Por favor, recarregue a pagina !")
                 setModalAlert(true)
+                setTravaButton(null)
             })
         }
 
@@ -104,7 +104,7 @@ const Feed = props => {
     const DropDownOptions = (id, user) => {
         if (props.user.is_staff == true) {
             return <DropDown DeletePost={DeletePost} ID={id} />
-        } else if (user.id === iduser) {
+        } else if (user === iduser) {
             return <DropDown DeletePost={DeletePost} ID={id} />
         } else {
             return;
@@ -146,9 +146,11 @@ const Feed = props => {
         
                             />
                         <Button variant="contained" id="button-post" onClick={(e, editor) => {
+                            setTravaButton(true)
                             SendPost(ContainerPost)
                             setPost("")
-                        }} >Postar</Button>
+                            
+                        }} disabled={travaButton} >Postar</Button>
                     </div> 
                     )
             } else { 
@@ -159,6 +161,16 @@ const Feed = props => {
         return (<CircularProgress/>)
     }
 
+    const Divdidi = (author) => {
+        if (props.config) {
+            const didi = props.config.filter((x) => x.variavel === 'POST_USER_DIDI')
+            if (didi[0].valor2 == author) {
+                return 'container-id-didi'
+            } else {
+                return 'container-id'
+            }
+        } else { return 'container-id'}
+    }
     
     return (
         <div className="content-feed">
@@ -166,14 +178,14 @@ const Feed = props => {
             <hr></hr>
             <div className='container-posts'>
             { data && data.map((post) => (
-                <div className='container-id' key={post.id}>
+                <div className={Divdidi(post.post_author)} key={post.id}>
                     {DropDownOptions(post.id, post.post_author)}
-                    <div className='content-post'>
-                        <Avatar src={post.author_name.img ? post.author_name.img : SemIMG } sx={{ width: 50, height: 50 }}></Avatar>
-                        <div className='text-post'>
-                            <h3>{post.author_name.first_name}</h3>
-                            <p>{Datefunction(post.post_created_at)}</p>
-                        </div>
+                    <div className='content-post' >
+                            <Avatar onClick={() => navigate(`user/${post.post_author}`)} alt={post.author_name.first_name} src={post.author_name.img ? post.author_name.img : '/broken.jpg' } sx={{ width: 50, height: 50 }}></Avatar>
+                            <div className='text-post'>
+                                <a onClick={() => navigate(`user/${post.post_author}`)}><h3>{post.author_name.first_name}</h3></a>
+                                <p>{Datefunction(post.post_created_at)}</p>
+                            </div>
                     </div>
                     <hr></hr>
                     <div className='col1-id'>
@@ -187,21 +199,22 @@ const Feed = props => {
                             }}>Comentar</Button>
                         </div>
                     </div>
+                </div>
+            ))}
+
                     <Snackbar open={modalalert} autoHideDuration={4000} onClose={() => setModalAlert(false)}>
                         <Alert onClose={() => setModalAlert(false)} severity="error" sx={{ width: '100%' }}>
                             {alert}
                         </Alert>
                     </Snackbar>
-                </div>
-
-
-            ))}
                         {modalviewpost ? <ViewPost
                                                 setModalViewPost={setModalViewPost}
                                                 modalviewpost={modalviewpost}
                                                 id={modalidview}
                                                 iduser={iduser}
                                                 user={props.user}
+                                                Divdidi={Divdidi}
+                                                config={props.config}
                         /> : null}
             </div>
       </div>

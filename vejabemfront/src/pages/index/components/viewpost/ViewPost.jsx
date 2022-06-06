@@ -25,13 +25,13 @@ const ViewPost = (props) => {
     const [likesanchorElNav, setlikesAnchorElNav] = React.useState(null);
 
     if (!data) {
-        return <p>carregando ... </p>
+        return ""
     }
     if (!post.data) {
-        return <p>carregando ... </p>
+        return ""
     }
     if (!likes) {
-        return <p>carregando ... </p>
+        return ""
     }
 
 
@@ -90,6 +90,20 @@ const ViewPost = (props) => {
         }
     }
 
+    const Divdidi1 = (author) => {
+        if (props.config) {
+            const didi = props.config.filter((x) => x.variavel === 'POST_USER_DIDI')
+            console.log(didi[0])
+            console.log(author)
+            if (didi[0].valor2 == author) {
+                return 'container-id-comments-didi'
+            } else {
+                return 'container-id-comments'
+            }
+        } else { return 'container-id-comments'}
+    }
+
+
     return (
         <Modal
             open={props.modalviewpost}
@@ -101,8 +115,7 @@ const ViewPost = (props) => {
             >
             <Box id='modal-view-post'>
                 <div className='container-comments'>
-                    <div className='container-id' key={post.data.id}>
-
+                    <div className={props.Divdidi(post.data.post_author)} key={post.data.id}>
                     <IconButton id='button-close' onClick={() => {props.setModalViewPost(null)}}>
                         <CloseIcon/>
                     </IconButton>
@@ -133,8 +146,8 @@ const ViewPost = (props) => {
                         </div>
                     </div>
                     {data && data.map((post) => (
-                        <div className='container-posts' key={post.id}>
-                            <div className='container-id-comments'>
+                        <div className={'container-posts'} key={post.id}>
+                            <div className={Divdidi1(post.comment_author)}>
                                 
                                 <div className='content-comments'>
                                     <Avatar id="avatar" src={post.author_name.img ? post.author_name.img : SemIMG }></Avatar>

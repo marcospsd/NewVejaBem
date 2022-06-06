@@ -1,0 +1,24 @@
+.loading {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1.5rem;
+}
+
+.container-loading {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    width: 300px;
+    height: 300px;
+    border-radius: 1.5rem;
+}
+
+#circularprogress {
+    width: 100px;
+    
+}
