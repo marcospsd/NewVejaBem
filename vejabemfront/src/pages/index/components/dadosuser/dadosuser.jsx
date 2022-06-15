@@ -1,6 +1,5 @@
 import React from 'react';
 import './dadosuser.css'
-import SemIMG from '../../../../assets/sem_foto.png'
 import Avatar from '@mui/material/Avatar';
 
 const DadosUser = ({data}) => {

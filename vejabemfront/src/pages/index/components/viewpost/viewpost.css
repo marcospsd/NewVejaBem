@@ -4,9 +4,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     min-width: 320px;
-    max-width: 100%;
-    height: 95%;
-    max-width: 100%;
+    max-width: 90%;
+    height: 90%;
     background: whitesmoke;
     border: 2px solid #000;
     color: rgb(0, 0, 0);
@@ -57,7 +56,7 @@
 
 .container-id-comments hr,
 .container-id-comments-didi hr {
-    margin: 0 1rem;
+    margin: 0 0.5rem;
 }
 
 .content-comments {
@@ -66,11 +65,10 @@
 }
 
 
-
-
 .text-comments h3 {
     text-align: center;
     font-size: 0.8rem;
+    margin: 0 0 0.5rem 0;
 }
 
 .input-comments {
@@ -84,7 +82,13 @@
 }
 
 #minidata {
-    font-size: 0.6rem
+    font-size: 0.6rem;
+    margin: 0;
+}
+
+#minicargo {
+    font-size: 0.7rem;
+    margin: 0 0 0.3rem 0;
 }
 
 #deletepostview {

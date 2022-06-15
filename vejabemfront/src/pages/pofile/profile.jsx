@@ -39,6 +39,7 @@ const ProfilePage = (props) => {
         const nde = nd.substring(5, 9) 
         return nde
     } 
+
     return(
         <>
         <NavBar user={user}/>

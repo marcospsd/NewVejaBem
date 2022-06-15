@@ -1,11 +1,12 @@
 #box-modal-create-user {
     position: absolute;
-    top: 35%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 350px;
-    height: 520px;
-    max-width: 100%;
+    min-width: 320px;
+    height: 90%;
+    max-width: 90%;
+    max-height: 600px;
     background: whitesmoke;
     border: 2px solid #000;
     size: 4;

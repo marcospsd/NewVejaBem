@@ -27,7 +27,7 @@ class ImagemSerializer(serializers.ModelSerializer):
 class UserPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['pk', 'first_name', 'img']
+        fields = ['pk', 'first_name', 'cargo' ,'img']
         
 
 

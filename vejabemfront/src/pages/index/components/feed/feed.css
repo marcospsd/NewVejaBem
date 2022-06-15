@@ -90,6 +90,11 @@
         font-size: 0.8rem;
     }
 
+    .content-post .cargo-id {
+        margin: 0 1rem;
+        font-size: 1rem;
+    }
+
     .content-post img {
         width: 85px;
         height: 85px;
@@ -126,6 +131,7 @@
         font-size: 0.7rem;
         margin: 0.3rem;
     }
+
 
 }
 
@@ -269,3 +275,6 @@
 }
 
 
+#mousepass {
+    cursor: pointer;
+}

@@ -1,19 +1,17 @@
 import React, {useContext, useState} from 'react';
 import './feed.css'
 import './ck-content.css'
-import SemIMG from '../../../../assets/sem_foto.png'
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import Editor from 'ckeditor5-custom-build/build/ckeditor'
 import Button from '@mui/material/Button';
 import { api } from '../../../../services/api'
 import useAxios from '../../../../hooks/useAxios'
 import { AuthContext } from '../../../../contexts/auth'
-import IconButton from '@mui/material/IconButton';
-import { CircularProgress, popoverClasses } from "@mui/material";
-import LogoutIcon from '@mui/icons-material/Logout';
+import { CircularProgress } from "@mui/material";
 import DropDown from '../../../../components/DropDown/dropdown';
 import ViewPost from '../viewpost/ViewPost'
 import Avatar from '@mui/material/Avatar';
+import { DataMes } from '../../../../components/functions/data';
 
 
 import Snackbar from '@mui/material/Snackbar';
@@ -39,6 +37,7 @@ const Feed = props => {
     const [alert, setAlert] = useState("")
     const [modalalert, setModalAlert] = useState(null)
     const [travaButton, setTravaButton] = useState(null)
+    const [datapost, setDataPost] = useState(null)
     
     const handleLogout = () => {
         logout()
@@ -52,8 +51,38 @@ const Feed = props => {
 
     }
 
-    
+    if (!props.config) {
+        return (
+            <LoadingPage/>
+        )
 
+    }
+
+    const datenow = new Date()
+    const PostDidi = data?.filter((x) => {
+        const didi = props.config.filter((x) => x.variavel === 'POST_USER_DIDI')
+        const datepost = new Date(x.post_created_at)
+        if (datenow.getDate()-datepost.getDate() <= 5 && x.post_author == didi[0].valor2) {
+            return x
+        } else {
+            return;
+        }
+    })
+    const Posts = data?.filter((x) => {
+        const didi = props.config.filter((x) => x.variavel === 'POST_USER_DIDI')
+        const datepost = new Date(x.post_created_at)
+        if (x.post_author != didi[0].valor2) {
+            return x
+        } else if (x.post_author == didi[0].valor2 && (datenow.getDate()-datepost.getDate()) > 5) {
+            return x
+        } else {
+            return;
+        }
+    })
+
+    console.log(Posts)
+
+    
     const ContainerPost = {
         post_content: post,
         post_author: props.user.id
@@ -61,6 +90,7 @@ const Feed = props => {
 
     const SendPost = async (id) => {
         if (post) {
+            setTravaButton(true)
             await api.post(`/posts/posts/`, id)
             .then((res => {
                 mutate()
@@ -81,11 +111,7 @@ const Feed = props => {
 
     }
 
-    const Datefunction = (id) => {
-        const news = new Date(id);
-        return news.toLocaleDateString() + " " + news.getHours() + ":" + news.getMinutes() + ":" + news.getSeconds()
-    }
-
+    
     const Curtir = async (post) => {
         await api.put(`/posts/like/${post.id}/`, { post_likes: [ iduser ]})
         .then((res) => {
@@ -146,7 +172,7 @@ const Feed = props => {
         
                             />
                         <Button variant="contained" id="button-post" onClick={(e, editor) => {
-                            setTravaButton(true)
+                            
                             SendPost(ContainerPost)
                             setPost("")
                             
@@ -177,14 +203,39 @@ const Feed = props => {
             {  PostHabilitado() }
             <hr></hr>
             <div className='container-posts'>
-            { data && data.map((post) => (
+            { PostDidi && PostDidi.map((post) => (
                 <div className={Divdidi(post.post_author)} key={post.id}>
                     {DropDownOptions(post.id, post.post_author)}
                     <div className='content-post' >
-                            <Avatar onClick={() => navigate(`user/${post.post_author}`)} alt={post.author_name.first_name} src={post.author_name.img ? post.author_name.img : '/broken.jpg' } sx={{ width: 50, height: 50 }}></Avatar>
+                            <Avatar id="mousepass" onClick={() => navigate(`user/${post.post_author}`)} alt={post.author_name.first_name} src={post.author_name.img ? post.author_name.img : '/broken.jpg' } sx={{ width: 50, height: 50 }}></Avatar>
                             <div className='text-post'>
-                                <a onClick={() => navigate(`user/${post.post_author}`)}><h3>{post.author_name.first_name}</h3></a>
-                                <p>{Datefunction(post.post_created_at)}</p>
+                                <a id="mousepass" onClick={() => navigate(`user/${post.post_author}`)} ><h3>{post.author_name.first_name}</h3><p className="cargo-id">{post.author_name.cargo? post.author_name.cargo+" | ": null} {DataMes(post.post_created_at)} </p></a>
+                                <p></p>
+                            </div>
+                    </div>
+                    <hr></hr>
+                    <div className='col1-id'>
+                        <div className='ck-content' dangerouslySetInnerHTML={{__html: post.post_content}}/>
+                        <hr></hr>
+                        <div className='conteudo-buttons'>
+                            <Button variant="contained" id="curtir" onClick={() => Curtir(post)}>{NameButton(post)}</Button>
+                            <Button variant="contained" id="comentar" onClick={() => {
+                                setModalIdView(post.id)
+                                setModalViewPost(true)
+                            }}>Comentar</Button>
+                        </div>
+                    </div>
+                </div>
+            ))}
+
+            { Posts && Posts.map((post) => (
+                <div className={Divdidi(post.post_author)} key={post.id}>
+                    {DropDownOptions(post.id, post.post_author)}
+                    <div className='content-post' >
+                            <Avatar id="mousepass" onClick={() => navigate(`user/${post.post_author}`)} alt={post.author_name.first_name} src={post.author_name.img ? post.author_name.img : '/broken.jpg' } sx={{ width: 50, height: 50 }}></Avatar>
+                            <div className='text-post'>
+                                <a id="mousepass" onClick={() => navigate(`user/${post.post_author}`)} ><h3>{post.author_name.first_name}</h3><p className="cargo-id">{post.author_name.cargo? post.author_name.cargo+" | ": null} {DataMes(post.post_created_at)} </p></a>
+                                <p></p>
                             </div>
                     </div>
                     <hr></hr>
@@ -215,6 +266,7 @@ const Feed = props => {
                                                 user={props.user}
                                                 Divdidi={Divdidi}
                                                 config={props.config}
+                                                navigate={navigate}
                         /> : null}
             </div>
       </div>

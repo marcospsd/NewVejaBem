@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import DadosUser from './components/dadosuser/dadosuser';
 import Feed from './components/feed/feed';
 import News from './components/news/news';
 import './index.css'
-import { api } from '../../services/api'
 import NavBar from '../../components/NavBar/navbar';
 import { AuthContext } from '../../contexts/auth';
 import LoadingPage from '../../components/Loading/loading';
@@ -20,7 +19,7 @@ const FeedPage = () => {
 
     return(
         <>
-        <NavBar user={user}/>
+        <NavBar user={user} config={config}/>
         <div className='container-page-feed'>
             
             <div className='container-user'>

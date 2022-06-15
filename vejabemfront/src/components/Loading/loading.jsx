@@ -5,8 +5,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 const LoadingPage = () => {
 
-
-
     return (
 
         <div className='loading'>

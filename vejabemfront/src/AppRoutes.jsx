@@ -3,19 +3,21 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import LoginPage from "./pages/login/login";
 import FeedPage from "./pages/index/index";
 import ProfilePage from "./pages/pofile/profile";
+import Administracao from "./pages/administracao/administracao"
 import { AuthProvicer, AuthContext } from "./contexts/auth";
 import { useContext } from "react";
 import ProfileUser from "./pages/profileuser/profileuser";
+import LoadingPage from "./components/Loading/loading";
 
 
 
 
 const AppRoutes = () => {
+    
     const Private = ({children}) =>{
-        const { authenticated, loading } = useContext(AuthContext);
-
+        const {authenticated, loading} = useContext(AuthContext)
         if (loading) {
-            return <div className="loading">Carregando...</div>
+            return <LoadingPage/>
         }
 
 
@@ -25,6 +27,7 @@ const AppRoutes = () => {
 
         return children;
     }
+
     return (
         <BrowserRouter>
             <AuthProvicer>
@@ -33,6 +36,7 @@ const AppRoutes = () => {
                     <Route exact path="/" element={<Private><FeedPage/></Private>} />
                     <Route exact path="/profile" element={<Private><ProfilePage/></Private>} />
                     <Route path="/user/:id" element={<Private><ProfileUser /></Private>} />
+                    <Route path="/administracao" element={<Private><Administracao/></Private>} />
                 </Routes>
             </AuthProvicer>
         </BrowserRouter>

@@ -5,7 +5,8 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import { api } from '../../../../services/api'
 import InputMask from 'react-input-mask';
-
+import CloseIcon from '@mui/icons-material/Close';
+import { IconButton } from '@mui/material';
 
 const EditProfileModal = (props) => {
     const [first_name, setFirst_Name] = useState(props.user.first_name)
@@ -88,11 +89,14 @@ const EditProfileModal = (props) => {
             <Box id='box-modal-profile-edit'      
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1.2, width: '50ch' },
+                '& .MuiTextField-root': { m: '1rem 0 0 0', width: '100%' },
             }}
             noValidate
             autoComplete="off">
             <div className="title-editprofile">
+                        <IconButton id='button-close' onClick={() => {props.setOpenEditModal(false)}}>
+                            <CloseIcon/>
+                        </IconButton>
                 <h1>Edite seu perfil...</h1>
                 <p>Mantenha seu perfil sempre atualizado para receber todas as novidades ..</p>
             </div>

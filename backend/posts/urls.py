@@ -12,6 +12,8 @@ router.register('comments', CommentsViewSets)
 router.register('upload', ImagemViewSet)
 
 
+
 urlpatterns = [
-    path('viewcomments/<desc_pk>', CommentsView.as_view(), name='desc_pk')
+    path('viewcomments/<desc_pk>', CommentsView.as_view(), name='desc_pk'),
+    path('postsuser/<desc_user>', PostsViewSetsUser.as_view(), name='desc_user')
 ]

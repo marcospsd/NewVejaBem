@@ -3,7 +3,6 @@ import useAxios from '../../../../hooks/useAxios'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import './viewpost.css'
-import SemIMG from '../../../../assets/sem_foto.png'
 import Button from '@mui/material/Button';
 import { IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
@@ -13,7 +12,7 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import { api } from '../../../../services/api';
 import LikeList from './components/likeslist/likelist';
-
+import { DataMes } from '../../../../components/functions/data'
 
 
 const ViewPost = (props) => {
@@ -50,10 +49,6 @@ const ViewPost = (props) => {
         }
     }
 
-    const Datefunction = (id) => {
-        const news = new Date(id);
-        return news.toLocaleDateString() + " " + news.getHours() + ":" + news.getMinutes() + ":" + news.getSeconds()
-    }
 
     const Likebutton = (dado) => {
         api.put(`/posts/like/${dado}/`, { post_likes: [props.iduser ] })
@@ -119,12 +114,14 @@ const ViewPost = (props) => {
                     <IconButton id='button-close' onClick={() => {props.setModalViewPost(null)}}>
                         <CloseIcon/>
                     </IconButton>
-
                         <div className='content-post'>
-                            <Avatar src={post.data.author_name.img ? post.data.author_name.img : SemIMG } sx={{ width: 50, height: 50 }}></Avatar>
+                            <Avatar 
+                                src={post.data.author_name.img} 
+                                sx={{ width: 50, height: 50 }}
+                                onClick={() => props.navigate(`/user/${post.data.post_author}`)} 
+                                id="mousepass"/>
                             <div className='text-post'>
-                                <h3>{post.data.author_name.first_name}</h3>
-                                <p>{Datefunction(post.data.post_created_at)}</p>
+                                <a id="mousepass" onClick={() => props.navigate(`/user/${post.data.post_author}`)}><h3>{post.data.author_name.first_name}</h3><p className="cargo-id">{post.data.author_name.cargo? post.data.author_name.cargo+" | ": null} {DataMes(post.data.post_created_at)} </p></a>
                             </div>
                         </div>
                         <hr></hr>
@@ -150,10 +147,15 @@ const ViewPost = (props) => {
                             <div className={Divdidi1(post.comment_author)}>
                                 
                                 <div className='content-comments'>
-                                    <Avatar id="avatar" src={post.author_name.img ? post.author_name.img : SemIMG }></Avatar>
+                                    <Avatar 
+                                    id="avatar" 
+                                    src={post.author_name.img } 
+                                    onClick={() => props.navigate(`/user/${post.comment_author}`)}/>
                                     <div className='text-comments'>
-                                        <h3>{(post.author_name.first_name).split(' ').slice(0, 1).join(' ')}</h3>
-                                        <p id="minidata">{Datefunction(post.comment_created_at)}</p>
+                                        <a onClick={() => props.navigate(`/user/${post.comment_author}`)} id="mousepass" >
+                                            <h3>{(post.author_name.first_name).split(' ').slice(0, 1).join(' ')}</h3></a>
+                                        <p id="minicargo">{post.author_name.cargo}</p>
+                                        <p id="minidata">{DataMes(post.comment_created_at)}</p>
                                     </div>
                                 </div>
                                 <hr/>

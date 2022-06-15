@@ -14,56 +14,63 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import './navbar.css';
-import SemIMG from '../../assets/sem_foto.png';
-import IMGLogoB from '../../assets/dinizbranca.png';
-import IMGLogo from '../../assets/dinizvermelha.png';
+import IMGLogo from '../../assets/logo-n.png';
 
-
-
-
-const pages = ['Feed', 'Noticias',];
-
-
-const settings = ['Perfil', 'Alterar Senha', 'Logout'];
 
 
 const Navbar = (props) => {
-    const { logout } = React.useContext(AuthContext)
+    const { logout } = React.useContext(AuthContext);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = (id) => {
-    Navegar(id)
-    setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = (id) => {
-    Navegar(id)
-    setAnchorElUser(null);
-  };
-
-  const Navegar = (id) => {
-    switch (id) {
-      case 'Feed':
-        return navigate('/')
-      case 'Noticias':
-        return navigate('/')
-      case 'Perfil':
-        return navigate('/profile')
-      case 'Alterar Senha':
-        return navigate('/')
-      case 'Logout':
-        return logout()
+    
+    const superuser = () => {
+        if (props.user.is_staff == true) {
+          return ['Administrativo', ]
+        } else {
+          return []
+        }
     }
-  }
+
+    const pages = ['Feed', 'Noticias',];
+
+    const settings = ['Perfil', 'Alterar Senha', ...superuser(), 'Logout',];
+
+    const handleOpenNavMenu = (event) => {
+      setAnchorElNav(event.currentTarget);
+    };
+
+    const handleOpenUserMenu = (event) => {
+      setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = (id) => {
+      Navegar(id)
+      setAnchorElNav(null);
+    };
+
+    const handleCloseUserMenu = (id) => {
+      Navegar(id)
+      setAnchorElUser(null);
+    };
+
+    const Navegar = (id) => {
+      switch (id) {
+        case 'Feed':
+          return navigate('/')
+        case 'Noticias':
+          return navigate('/')
+        case 'Perfil':
+          return navigate('/profile')
+        case 'Alterar Senha':
+          return navigate('/')
+        case 'Logout':
+          return logout()
+        case 'Administrativo':
+          return navigate('/administracao')
+      }
+    }
 
 
 
