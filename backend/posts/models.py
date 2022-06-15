@@ -10,6 +10,7 @@ from io import BytesIO
 from PIL import Image
 
 
+
 class Post(models.Model):
     post_content = RichTextUploadingField()
     post_created_at = models.DateTimeField(auto_now_add=True)
@@ -36,22 +37,24 @@ def get_file_path(instance, filename):
 
 def compress(img):
     im = Image.open(img)
+    print(img.name)
     im_io = BytesIO()
     widht, height = im.size
-    if widht > 500:
-        new_widht = 550
+    if widht > 300:
+        new_widht = 300
         new_height = round(new_widht * height / widht)
         new_image = im.resize((new_widht, new_height), Image.ANTIALIAS)
-        new_image.save(im_io, format='PNG', quality=98)
+        new_image.save(im_io, format='PNG', quality=100)
         # create a Django-friendly Files object
         nova_image = File(im_io, name=img.name)
         return nova_image
     else:
-        im.save(im_io, format='PNG', quality=98)
+        im.save(im_io, format='PNG', quality=100)
         # create a Django-friendly Files object
         nova_image = File(im_io, name=img.name)
         im.delete()
         return nova_image
+
 
 class ImageRec(models.Model):
     upload = models.ImageField(upload_to=get_file_path)
@@ -60,6 +63,10 @@ class ImageRec(models.Model):
         return str(self.upload)
 
     def save(self, *args, **kwargs):
-        new_image = compress(self.upload)
-        self.upload = new_image
-        super(ImageRec, self).save(*args,**kwargs)
+        ext = str((self.upload).name).split(".")[-1]
+        if ext != 'gif':
+            new_image = compress(self.upload)
+            self.upload = new_image
+            super(ImageRec, self).save(*args,**kwargs)
+        else:
+            super(ImageRec, self).save(*args,**kwargs)
