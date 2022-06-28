@@ -28,8 +28,7 @@ const getKey = (pageIndex, previousPageData) => {
 export const useAxiosInfinity = (url) => {
     const { data, error, mutate} = useSWRInfinity(getKey , async url => {
         const response = await api.get(url);
-        console.log(response.data)
-        return response.data
+        return response.data.results
         
     //  }, { refreshInterval: 10000 })
     })

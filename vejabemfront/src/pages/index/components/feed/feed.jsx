@@ -36,7 +36,15 @@ const Feed = props => {
     const [modalalert, setModalAlert] = useState(null)
     const [travaButton, setTravaButton] = useState(null)
     
-    
+
+    if(!data){
+        return (
+            <LoadingPage/>
+        )
+    }
+
+    const newData = data? [].concat(...data) : []
+
     if (!props.config) {
         return (
             <LoadingPage/>
@@ -46,28 +54,9 @@ const Feed = props => {
 
 
 
-    const datenow = new Date()
-    const PostDidi = data?.results.filter((x) => {
-        const didi = props.config.filter((x) => x.variavel === 'POST_USER_DIDI')
-        const datepost = new Date(x.post_created_at)
-        if (datenow.getDate()-datepost.getDate() <= 5 && x.post_author == didi[0].valor2) {
-            return x
-        } else {
-            return;
-        }
-    })
-    const Posts = data?.results.filter((x) => {
-        const didi = props.config.filter((x) => x.variavel === 'POST_USER_DIDI')
-        const datepost = new Date(x.post_created_at)
-        if (x.post_author != didi[0].valor2) {
-            return x
-        } else if (x.post_author == didi[0].valor2 && (datenow.getDate()-datepost.getDate()) > 5) {
-            return x
-        } else {
-            return;
-        }
-    })
 
+
+    const datenow = new Date()
     
     const ContainerPost = {
         post_content: post,
@@ -195,32 +184,8 @@ const Feed = props => {
             {  PostHabilitado() }
             <hr></hr>
             <div className='container-posts'>
-            { PostDidi ? PostDidi.map((post) => (
-                <div className={Divdidi(post.post_author)} key={post.id}>
-                    {DropDownOptions(post.id, post.post_author)}
-                    <div className='content-post' >
-                            <Avatar id="mousepass" onClick={() => navigate(`user/${post.post_author}`)} alt={post.author_name.first_name} src={post.author_name.img ? post.author_name.img : '/broken.jpg' } sx={{ width: 50, height: 50 }}></Avatar>
-                            <div className='text-post'>
-                                <a id="mousepass" onClick={() => navigate(`user/${post.post_author}`)} ><h3>{post.author_name.first_name}</h3><p className="cargo-id">{post.author_name.cargo? post.author_name.cargo+" | ": null} {DataMes(post.post_created_at)} </p></a>
-                                <p></p>
-                            </div>
-                    </div>
-                    <hr></hr>
-                    <div className='col1-id'>
-                        <div className='ck-content' dangerouslySetInnerHTML={{__html: post.post_content}}/>
-                        <hr></hr>
-                        <div className='conteudo-buttons'>
-                            <Button variant="contained" id="curtir" onClick={() => Curtir(post)}>{NameButton(post)}</Button>
-                            <Button variant="contained" id="comentar" onClick={() => {
-                                setModalIdView(post.id)
-                                setModalViewPost(true)
-                            }}>Comentar</Button>
-                        </div>
-                    </div>
-                </div>
-            )) : <LoadingPage/> }
 
-            { Posts ? Posts.map((post) => (
+            { newData ? newData.map((post) => (
                 <div className={Divdidi(post.post_author)} key={post.id}>
                     {DropDownOptions(post.id, post.post_author)}
                     <div className='content-post' >
