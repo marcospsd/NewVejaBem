@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import { AuthContext } from '../../contexts/auth'
 import { useNavigate } from "react-router-dom";
 import AppBar from '@mui/material/AppBar';
@@ -19,7 +19,7 @@ import IMGLogo from '../../assets/logo-n.png';
 
 
 const Navbar = (props) => {
-    const { logout } = React.useContext(AuthContext);
+    const { logout } = useContext(AuthContext);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const navigate = useNavigate();

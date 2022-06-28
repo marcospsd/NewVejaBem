@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import useAxios from '../../../../hooks/useAxios'
+import {useAxios} from '../../../../hooks/useAxios'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import './viewpost.css'
@@ -142,7 +142,7 @@ const ViewPost = (props) => {
                             </div>
                         </div>
                     </div>
-                    {data && data.map((post) => (
+                    {data && data.results.map((post) => (
                         <div className={'container-posts'} key={post.id}>
                             <div className={Divdidi1(post.comment_author)}>
                                 

@@ -40,7 +40,7 @@ export const DataMes = (id) => {
                 return "Hoje"
             case diff === 1:
                 return "Ontem"
-            case diff >= 2:
+            case diff <= 2:
                 return "Essa semana"
             case diff >= 7:
                 return news.getDay() + " de " + mes(news)

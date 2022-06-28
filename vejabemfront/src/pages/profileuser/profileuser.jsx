@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import './profileuser.css'
 import {useParams} from 'react-router-dom'
-import useAxios from '../../hooks/useAxios'
+import {useAxios} from '../../hooks/useAxios'
 import Navbar from '../../components/NavBar/navbar'
 import { AuthContext } from '../../contexts/auth'
 import DadosUser from '../index/components/dadosuser/dadosuser'

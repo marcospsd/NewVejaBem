@@ -8,9 +8,7 @@ const LoadingPage = () => {
     return (
 
         <div className='loading'>
-                <div className="container-loading">
-                <CircularProgress id="circularprogress" />
-                </div>
+                <CircularProgress />
         </div>
 
     )

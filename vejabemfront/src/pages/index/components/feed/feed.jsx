@@ -5,8 +5,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import Editor from 'ckeditor5-custom-build/build/ckeditor'
 import Button from '@mui/material/Button';
 import { api } from '../../../../services/api'
-import useAxios from '../../../../hooks/useAxios'
-import { AuthContext } from '../../../../contexts/auth'
+import {useAxiosInfinity} from '../../../../hooks/useAxios'
 import { CircularProgress } from "@mui/material";
 import DropDown from '../../../../components/DropDown/dropdown';
 import ViewPost from '../viewpost/ViewPost'
@@ -28,29 +27,16 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const Feed = props => {
     const navigate = useNavigate()
-    const { data, mutate } = useAxios('/posts/posts/');
+    const { data, mutate } = useAxiosInfinity('/posts/posts/');
     const [post, setPost] = useState("")
-    const { logout } = useContext(AuthContext);
     const iduser = props.user.id;
     const [modalviewpost, setModalViewPost] = useState(null)
     const [modalidview, setModalIdView]= useState("")
     const [alert, setAlert] = useState("")
     const [modalalert, setModalAlert] = useState(null)
     const [travaButton, setTravaButton] = useState(null)
-    const [datapost, setDataPost] = useState(null)
     
-    const handleLogout = () => {
-        logout()
-
-    };
     
-    if (!data) {
-        return (
-            <LoadingPage/>
-        )
-
-    }
-
     if (!props.config) {
         return (
             <LoadingPage/>
@@ -58,8 +44,10 @@ const Feed = props => {
 
     }
 
+
+
     const datenow = new Date()
-    const PostDidi = data?.filter((x) => {
+    const PostDidi = data?.results.filter((x) => {
         const didi = props.config.filter((x) => x.variavel === 'POST_USER_DIDI')
         const datepost = new Date(x.post_created_at)
         if (datenow.getDate()-datepost.getDate() <= 5 && x.post_author == didi[0].valor2) {
@@ -68,7 +56,7 @@ const Feed = props => {
             return;
         }
     })
-    const Posts = data?.filter((x) => {
+    const Posts = data?.results.filter((x) => {
         const didi = props.config.filter((x) => x.variavel === 'POST_USER_DIDI')
         const datepost = new Date(x.post_created_at)
         if (x.post_author != didi[0].valor2) {
@@ -79,8 +67,6 @@ const Feed = props => {
             return;
         }
     })
-
-    console.log(Posts)
 
     
     const ContainerPost = {
@@ -138,12 +124,17 @@ const Feed = props => {
         
     }
 
-    const DeletePost = async (id) => {
+    const DeletePost = (id) => {
         if(window.confirm("Deseja deletar esse post ?")) {
-            await api.delete(`/posts/posts/${id}`)
-            .then()
-            const newdado = data.filter((x) => x.id !== id)
-            mutate(newdado, false)
+            api.delete(`/posts/posts/${id}`)
+            .then((res) => {
+                const newdado = data.results.filter((x) => x.id !== id)
+                mutate({...data, results: newdado }, false)
+            })
+            .catch((err) => {
+                setAlert("Erro de Requisição, por favor tente mais tarde")
+                setModalAlert(true)
+            })
         
         }
     }
@@ -157,6 +148,7 @@ const Feed = props => {
                         <CKEditor 
                             data={post}
                             editor={Editor}
+                            
                             onChange={(e, editor) => { HandleChange(e, editor)}}
                             config= {{
                                 simpleUpload: {
@@ -203,7 +195,7 @@ const Feed = props => {
             {  PostHabilitado() }
             <hr></hr>
             <div className='container-posts'>
-            { PostDidi && PostDidi.map((post) => (
+            { PostDidi ? PostDidi.map((post) => (
                 <div className={Divdidi(post.post_author)} key={post.id}>
                     {DropDownOptions(post.id, post.post_author)}
                     <div className='content-post' >
@@ -226,9 +218,9 @@ const Feed = props => {
                         </div>
                     </div>
                 </div>
-            ))}
+            )) : <LoadingPage/> }
 
-            { Posts && Posts.map((post) => (
+            { Posts ? Posts.map((post) => (
                 <div className={Divdidi(post.post_author)} key={post.id}>
                     {DropDownOptions(post.id, post.post_author)}
                     <div className='content-post' >
@@ -251,7 +243,7 @@ const Feed = props => {
                         </div>
                     </div>
                 </div>
-            ))}
+            )) : <LoadingPage />}
 
                     <Snackbar open={modalalert} autoHideDuration={4000} onClose={() => setModalAlert(false)}>
                         <Alert onClose={() => setModalAlert(false)} severity="error" sx={{ width: '100%' }}>

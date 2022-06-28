@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 
 import ModalCreateUser from './components/criarusuario/criarusuario';
 import { AuthContext } from '../../contexts/auth'
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 
 const Login = () => {
@@ -21,10 +21,9 @@ const Login = () => {
     const [ openreset, setOpenReset ] = useState(false)
     const [ username, setUsername] = useState('')
     const [ password, setPassword] = useState('')
-    const navigate = useNavigate()
 
-    if (authenticated) {
-        return navigate('/')
+    if (authenticated === true) {
+        return <Navigate to="/" />
     }
 
     const handleSubmit = (e) => {

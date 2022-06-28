@@ -29,7 +29,7 @@ export const AuthProvicer = ({children}) => {
             });
             api.get('/auth/config/')
             .then((res) => {
-                setConfig(res.data)
+                setConfig(res.data.results)
       
             });
             
@@ -62,7 +62,7 @@ export const AuthProvicer = ({children}) => {
 
         api.get('/auth/config/')
         .then((res) => {
-            setConfig(res.data)
+            setConfig(res.data.results)
         })
         setActivo(loggedUser)
         navigate("/")

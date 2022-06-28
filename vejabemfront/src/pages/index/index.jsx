@@ -12,7 +12,6 @@ import LoadingPage from '../../components/Loading/loading';
 
 const FeedPage = () => {
     const { user, config } = useContext(AuthContext)
-
     if (!user) {
         return <LoadingPage/>
     }

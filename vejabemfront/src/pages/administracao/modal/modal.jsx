@@ -4,7 +4,7 @@ import './modal.css'
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import Editor from 'ckeditor5-custom-build/build/ckeditor'
 import { api } from '../../../services/api';
-import useAxios from '../../../hooks/useAxios';
+import {useAxios} from '../../../hooks/useAxios';
 import DropDown from '../../../components/DropDown/dropdown';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
@@ -45,10 +45,7 @@ const ModalDidi = (props) => {
     const DeletePost = async (id) => {
         if(window.confirm("Deseja deletar esse post ?")) {
             await api.delete(`/posts/posts/${id}`)
-            .then()
-            const newdado = data.filter((x) => x.id !== id)
-            mutate(newdado, false)
-        
+            mutate()
         }
     }
 
@@ -103,7 +100,7 @@ const ModalDidi = (props) => {
                         }} disabled={travaButton} >Postar</Button>
                     </div>
                     <div className='container-posts'>
-                        { data && data.map((post) => (
+                        { data ? data.results.map((post) => (
                             <div className='container-id-didi' key={post.id}>
                                 <DropDown DeletePost={DeletePost} ID={post.id} />
                                 <div className='content-post' >
@@ -119,7 +116,7 @@ const ModalDidi = (props) => {
                                     <hr></hr>
                                 </div>
                             </div>
-                        ))}
+                        )): null}
                         </div>
 
                 </div>
