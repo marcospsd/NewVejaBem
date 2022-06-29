@@ -27,7 +27,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 const Feed = props => {
     const navigate = useNavigate()
-    const { data, mutate } = useAxiosInfinity('/posts/posts/');
+    const { data, mutate, size, setSize, isReachedEnd, loadingMore} = useAxiosInfinity('/posts/posts/');
     const [post, setPost] = useState("")
     const iduser = props.user.id;
     const [modalviewpost, setModalViewPost] = useState(null)
@@ -35,7 +35,7 @@ const Feed = props => {
     const [alert, setAlert] = useState("")
     const [modalalert, setModalAlert] = useState(null)
     const [travaButton, setTravaButton] = useState(null)
-    
+
 
     if(!data){
         return (
@@ -43,18 +43,12 @@ const Feed = props => {
         )
     }
 
-    const newData = data? [].concat(...data) : []
-
     if (!props.config) {
         return (
             <LoadingPage/>
         )
 
     }
-
-
-
-
 
     const datenow = new Date()
     
@@ -95,11 +89,10 @@ const Feed = props => {
     }
 
     const NameButton = (data) => {
-        const contar = data.post_likes.map(x => x).length
         const verificar = data.post_likes.filter(x => x == iduser)
         if (verificar.length === 0) {
-            return `Curtir(${contar})`
-        } else { return `Descurtir(${contar})`}
+            return `Curtir`
+        } else { return `Descurtir`}
     }
 
     const DropDownOptions = (id, user) => {
@@ -117,14 +110,25 @@ const Feed = props => {
         if(window.confirm("Deseja deletar esse post ?")) {
             api.delete(`/posts/posts/${id}`)
             .then((res) => {
-                const newdado = data.results.filter((x) => x.id !== id)
-                mutate({...data, results: newdado }, false)
+                mutate()
             })
             .catch((err) => {
                 setAlert("Erro de Requisição, por favor tente mais tarde")
                 setModalAlert(true)
             })
         
+        }
+    }
+
+    const ButtonLoading = () => {
+        if (!loadingMore) {
+            if (isReachedEnd) {
+                return <Button variant="contained" id="carregar" onClick={() => setSize(size+1)}>Carregar Mais ...</Button>
+            } else {
+                return null
+            }
+        } else {
+            return <LoadingPage/>
         }
     }
 
@@ -137,7 +141,6 @@ const Feed = props => {
                         <CKEditor 
                             data={post}
                             editor={Editor}
-                            
                             onChange={(e, editor) => { HandleChange(e, editor)}}
                             config= {{
                                 simpleUpload: {
@@ -185,7 +188,8 @@ const Feed = props => {
             <hr></hr>
             <div className='container-posts'>
 
-            { newData ? newData.map((post) => (
+            { data ? data.map((res) => (
+                res.results.map((post) => (
                 <div className={Divdidi(post.post_author)} key={post.id}>
                     {DropDownOptions(post.id, post.post_author)}
                     <div className='content-post' >
@@ -208,7 +212,10 @@ const Feed = props => {
                         </div>
                     </div>
                 </div>
-            )) : <LoadingPage />}
+            )))) : <LoadingPage />}
+                <div className='carregar-div'>
+                        {ButtonLoading()}
+                </div>
 
                     <Snackbar open={modalalert} autoHideDuration={4000} onClose={() => setModalAlert(false)}>
                         <Alert onClose={() => setModalAlert(false)} severity="error" sx={{ width: '100%' }}>

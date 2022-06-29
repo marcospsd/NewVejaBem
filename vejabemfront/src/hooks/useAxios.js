@@ -1,6 +1,8 @@
 import useSWRInfinity from 'swr/infinite';
 import useSWR from 'swr';
 import {api} from '../services/api';
+import { useState } from 'react';
+import { DataMes } from '../components/functions/data';
 
 export const useAxios = (url) => {
     //const { mutate } = useSWRConfig()
@@ -14,24 +16,28 @@ export const useAxios = (url) => {
     return {data, mutate}
 }
 
-const getKey = (pageIndex, previousPageData) => {
-    // alcançou o fim
-    if (previousPageData && !previousPageData.data) return null
-  
-    // primeira página, nós não temos `previousPageData`
-    if (pageIndex === 0) return `/posts/posts/`
-  
-    // adiciona o cursor para o endpoint da API
-    return `/users?cursor=${previousPageData.nextCursor}&limit=10`
-  }
+
 
 export const useAxiosInfinity = (url) => {
-    const { data, error, mutate} = useSWRInfinity(getKey , async url => {
+    const getKey = (pageIndex, previousPageData) => {
+        pageIndex = pageIndex + 1
+        if (previousPageData && !previousPageData.next) return null 
+        return `${url}?page=${pageIndex}`
+    }
+
+    const { data: dataswr, error, mutate ,size, setSize} = useSWRInfinity(getKey , async url => {
         const response = await api.get(url);
-        return response.data.results
-        
+        return response.data
     //  }, { refreshInterval: 10000 })
     })
-    return {data, mutate}
+
+
+    const data = dataswr
+
+    const isReachedEnd = dataswr ? dataswr[dataswr.length -1]?.next : null
+
+    const loadingMore = dataswr && typeof dataswr[size - 1] === "undefined"
+    
+    return {data, mutate, setSize, size, isReachedEnd, loadingMore}
 }
 

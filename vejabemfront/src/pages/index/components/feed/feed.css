@@ -278,3 +278,13 @@
 #mousepass {
     cursor: pointer;
 }
+
+.carregar-div {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+#carregar {
+    background-color: var(--primarycolor);
+}
