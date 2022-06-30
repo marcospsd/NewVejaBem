@@ -8,7 +8,7 @@ import { AuthProvicer, AuthContext } from "./contexts/auth";
 import { useContext } from "react";
 import ProfileUser from "./pages/profileuser/profileuser";
 import LoadingPage from "./components/Loading/loading";
-
+import AlterarSenha from "./pages/alterarsenha/alterarsenha"
 
 
 
@@ -35,8 +35,9 @@ const AppRoutes = () => {
                     <Route exact path="/login" element={<LoginPage/>} />
                     <Route exact path="/" element={<Private><FeedPage/></Private>} />
                     <Route exact path="/profile" element={<Private><ProfilePage/></Private>} />
-                    <Route path="/user/:id" element={<Private><ProfileUser /></Private>} />
-                    <Route path="/administracao" element={<Private><Administracao/></Private>} />
+                    <Route exact path="/user/:id" element={<Private><ProfileUser /></Private>} />
+                    <Route exact path="/administracao" element={<Private><Administracao/></Private>} />
+                    <Route exact path="/alterarsenha" element={<Private><AlterarSenha/></Private>} />
                 </Routes>
             </AuthProvicer>
         </BrowserRouter>

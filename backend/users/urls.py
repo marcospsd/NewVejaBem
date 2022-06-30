@@ -17,12 +17,13 @@ from re import template
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.generic import TemplateView
-from users.views import CustomAuthToken, CreateUserView, VariaveisAmbienteView
+from users.views import CustomAuthToken, CreateUserView, VariaveisAmbienteView, FilhosExistsView, ChangePasswordView
 from rest_framework.routers import SimpleRouter
 
 
 routeruser = SimpleRouter()
-routeruser.register('', CreateUserView)
+routeruser.register('create', CreateUserView)
+routeruser.register('filhos', FilhosExistsView)
 
 routerconfig = SimpleRouter()
 routerconfig.register('', VariaveisAmbienteView)
@@ -30,5 +31,5 @@ routerconfig.register('', VariaveisAmbienteView)
 
 urlpatterns = [
     path('', CustomAuthToken.as_view()),
-    
+    path('alterar/<int:pk>/', ChangePasswordView.as_view()),
 ]

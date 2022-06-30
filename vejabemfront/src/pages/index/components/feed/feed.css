@@ -283,8 +283,10 @@
     display: flex;
     justify-content: center;
     align-self: center;
+    padding: 1rem;
 }
 
 #carregar {
     background-color: var(--primarycolor);
+    height: 2rem;
 }

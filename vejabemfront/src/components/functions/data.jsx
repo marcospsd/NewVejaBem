@@ -6,7 +6,7 @@ export const DataMes = (id) => {
         const now = new Date()
         const mesto = news.getMonth()
         const mes = () => {
-            switch (mesto) {
+            switch (mesto+1) {
                 case 1:
                     return "Janeiro"
                 case 2:
@@ -34,7 +34,7 @@ export const DataMes = (id) => {
 
             }
         }
-        const diff = (now.getDate() - news.getDate())
+        const diff = Math.ceil((now-news) / (1000 * 60 * 60 * 24)) - 1
         switch (true) {
             case diff === 0:
                 return "Hoje"
@@ -43,7 +43,7 @@ export const DataMes = (id) => {
             case diff <= 2:
                 return "Essa semana"
             case diff >= 7:
-                return news.getDay() + " de " + mes(news)
+                return news.getDate() + " de " + mes()
         }       
 
 

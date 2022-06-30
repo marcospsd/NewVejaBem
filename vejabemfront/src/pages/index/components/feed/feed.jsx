@@ -11,12 +11,13 @@ import DropDown from '../../../../components/DropDown/dropdown';
 import ViewPost from '../viewpost/ViewPost'
 import Avatar from '@mui/material/Avatar';
 import { DataMes } from '../../../../components/functions/data';
-
+import LoadingPage from '../../../../components/Loading/loading';
+import { useNavigate } from 'react-router-dom';
+import UIInfiniteScroll from '../../../../components/UIInfiniteScroll/UIInfiniteScroll';
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import LoadingPage from '../../../../components/Loading/loading';
-import { useNavigate } from 'react-router-dom';
+
 
 const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -123,7 +124,7 @@ const Feed = props => {
     const ButtonLoading = () => {
         if (!loadingMore) {
             if (isReachedEnd) {
-                return <Button variant="contained" id="carregar" onClick={() => setSize(size+1)}>Carregar Mais ...</Button>
+                return setSize(size+1)
             } else {
                 return null
             }
@@ -214,7 +215,7 @@ const Feed = props => {
                 </div>
             )))) : <LoadingPage />}
                 <div className='carregar-div'>
-                        {ButtonLoading()}
+                        {data ? <UIInfiniteScroll buscar={ButtonLoading} /> : null}
                 </div>
 
                     <Snackbar open={modalalert} autoHideDuration={4000} onClose={() => setModalAlert(false)}>

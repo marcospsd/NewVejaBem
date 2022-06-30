@@ -31,3 +31,20 @@
 .button-editprofile #button-post {
     background-color: var(--primarycolor);
 }
+
+.divfilhos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.divfilhos p {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.divfilhos-1 {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}

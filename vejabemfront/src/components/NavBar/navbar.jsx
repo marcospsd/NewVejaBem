@@ -64,7 +64,7 @@ const Navbar = (props) => {
         case 'Perfil':
           return navigate('/profile')
         case 'Alterar Senha':
-          return navigate('/')
+          return navigate('/alterarsenha')
         case 'Logout':
           return logout()
         case 'Administrativo':

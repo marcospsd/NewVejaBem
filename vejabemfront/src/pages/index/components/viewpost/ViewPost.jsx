@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {useAxios} from '../../../../hooks/useAxios'
+import {useAxios, useAxiosInfinity} from '../../../../hooks/useAxios'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import './viewpost.css'
@@ -13,12 +13,14 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import { api } from '../../../../services/api';
 import LikeList from './components/likeslist/likelist';
 import { DataMes } from '../../../../components/functions/data'
+import LoadingPage from '../../../../components/Loading/loading'
+import UIInfiniteScroll from '../../../../components/UIInfiniteScroll/UIInfiniteScroll';
 
 
 const ViewPost = (props) => {
     const post = useAxios(`/posts/posts/${props.id}/`)
     const likes = useAxios(`/posts/like/${props.id}/`)
-    const {data, mutate} = useAxios(`/posts/viewcomments/${props.id}`)    
+    const {data, mutate, size, setSize, loadingMore, isReachedEnd} = useAxiosInfinity(`/posts/viewcomments/${props.id}`)    
     const [comentario, setComentario] = useState("")
     const [likeslist, setLikesList] = useState(null)
     const [likesanchorElNav, setlikesAnchorElNav] = React.useState(null);
@@ -69,8 +71,7 @@ const ViewPost = (props) => {
         if (window.confirm("Deseja deletar o comentário ?")) {
             api.delete(`/posts/comments/${id}/`)
             .then((res) => {
-                const NewData = data.filter((x) => x.id !== id)
-                mutate(NewData, false)
+                mutate()
             })
         }
     }
@@ -88,14 +89,24 @@ const ViewPost = (props) => {
     const Divdidi1 = (author) => {
         if (props.config) {
             const didi = props.config.filter((x) => x.variavel === 'POST_USER_DIDI')
-            console.log(didi[0])
-            console.log(author)
             if (didi[0].valor2 == author) {
                 return 'container-id-comments-didi'
             } else {
                 return 'container-id-comments'
             }
         } else { return 'container-id-comments'}
+    }
+
+    const ButtonLoading = () => {
+        if (!loadingMore) {
+            if (isReachedEnd) {
+                 setSize(size+1)
+            } else {
+                return null
+            }
+        } else {
+            return <LoadingPage/>
+        }
     }
 
 
@@ -142,7 +153,8 @@ const ViewPost = (props) => {
                             </div>
                         </div>
                     </div>
-                    {data && data.results.map((post) => (
+                    {data && data.map((post) => (
+                        post.results.map((post) => 
                         <div className={'container-posts'} key={post.id}>
                             <div className={Divdidi1(post.comment_author)}>
                                 
@@ -167,7 +179,10 @@ const ViewPost = (props) => {
                                 }
                             </div>
                         </div>
-                    ))}
+                    )))}
+                    <div className="carregar-div">
+                        { data ? <UIInfiniteScroll buscar={ButtonLoading}/> : null}
+                    </div>
                 </div>
                 <div className='input-comments'>
                     <TextField id="input-comments-textfield" inputProps={{ maxLength: '255' }} variant="outlined" value={comentario} onChange={(e) => setComentario(e.target.value)} fullWidth/>

@@ -103,6 +103,18 @@ class User(AbstractUser, models.Model):
             super().save(*args, **kwargs)
 
 
+sexo = (
+    ('M', 'Masculino'),
+    ('F', 'Feminino')
+    )
+
+class FilhosExists(models.Model):
+    user = models.ForeignKey(User, related_name='filhos_user', on_delete=models.CASCADE)
+    nome = models.CharField(max_length=20)
+    sexo = models.CharField(max_length=1, choices=sexo, null=True, blank=True)
+    datanasc = models.CharField(max_length=10)
+
+
 class VariaveisAmbiente(models.Model):
     variavel = models.CharField(max_length=20)
     descricao = models.CharField(max_length=255, blank=True, null=True)
