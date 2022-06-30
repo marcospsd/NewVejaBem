@@ -72,13 +72,13 @@ export const AuthProvicer = ({children}) => {
     };
     
     const logout = () => {
+        setConfig(null)
+        setUser(null);
+        setActivo(null)
         localStorage.removeItem("nome")
         localStorage.removeItem("token")
         localStorage.removeItem("iduser")
-
         api.defaults.headers.Authorization = null;
-        setConfig(null)
-        setUser(null);
         navigate("/login")
     };
 
