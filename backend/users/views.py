@@ -3,11 +3,11 @@ from datetime import date
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
-from rest_framework import viewsets
+from rest_framework import viewsets ,generics
 
 from rest_framework import permissions
 from rest_framework.generics import CreateAPIView
-from users.models import User, VariaveisAmbiente
+from users.models import User, VariaveisAmbiente, FilhosExists
 
 from .serializers import *
 
@@ -40,3 +40,12 @@ class CreateUserView(viewsets.ModelViewSet):
 class VariaveisAmbienteView(viewsets.ModelViewSet):
     queryset = VariaveisAmbiente.objects.all()
     serializer_class = VariaveisAmbienteSerializer
+
+class FilhosExistsView(viewsets.ModelViewSet):
+    queryset = FilhosExists.objects.all()
+    serializer_class = FilhoSerializer
+
+class ChangePasswordView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = ChangePasswordSerializer
+
