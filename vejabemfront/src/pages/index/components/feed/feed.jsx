@@ -6,7 +6,7 @@ import Editor from 'ckeditor5-custom-build/build/ckeditor'
 import Button from '@mui/material/Button';
 import { api } from '../../../../services/api'
 import {useAxiosInfinity} from '../../../../hooks/useAxios'
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, IconButton } from "@mui/material";
 import DropDown from '../../../../components/DropDown/dropdown';
 import ViewPost from '../viewpost/ViewPost'
 import Avatar from '@mui/material/Avatar';
@@ -14,9 +14,10 @@ import { DataMes } from '../../../../components/functions/data';
 import LoadingPage from '../../../../components/Loading/loading';
 import { useNavigate } from 'react-router-dom';
 import UIInfiniteScroll from '../../../../components/UIInfiniteScroll/UIInfiniteScroll';
-
+import { FaRegComment } from 'react-icons/fa'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import LikeButton from '../../../../components/Likebutton/likebutton';
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -92,8 +93,8 @@ const Feed = props => {
     const NameButton = (data) => {
         const verificar = data.post_likes.filter(x => x == iduser)
         if (verificar.length === 0) {
-            return `Curtir`
-        } else { return `Descurtir`}
+            return false
+        } else { return true}
     }
 
     const DropDownOptions = (id, user) => {
@@ -205,11 +206,14 @@ const Feed = props => {
                         <div className='ck-content' dangerouslySetInnerHTML={{__html: post.post_content}}/>
                         <hr></hr>
                         <div className='conteudo-buttons'>
-                            <Button variant="contained" id="curtir" onClick={() => Curtir(post)}>{NameButton(post)}</Button>
-                            <Button variant="contained" id="comentar" onClick={() => {
+                            <LikeButton likestatus={NameButton} likeclick={Curtir} data={post}/>
+                            <IconButton sx={{ size: 30,}} onClick={() => {
                                 setModalIdView(post.id)
                                 setModalViewPost(true)
-                            }}>Comentar</Button>
+                            }}>
+                                <FaRegComment size={30} color="#000"/>
+                            </IconButton>
+                            
                         </div>
                     </div>
                 </div>
@@ -232,6 +236,7 @@ const Feed = props => {
                                                 Divdidi={Divdidi}
                                                 config={props.config}
                                                 navigate={navigate}
+                                                
                         /> : null}
             </div>
       </div>
