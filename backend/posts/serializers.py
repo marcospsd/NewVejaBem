@@ -1,12 +1,8 @@
-from tabnanny import verbose
-from rest_framework.response import Response
-from django.http import JsonResponse
 from users.models import VariaveisAmbiente
 from rest_framework import serializers
 from .models import *
 from users.models import User
 from django.shortcuts import get_object_or_404
-import json
 
 
 
