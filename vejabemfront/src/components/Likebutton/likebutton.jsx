@@ -16,7 +16,7 @@ const LikeButton = ({likestatus, likeclick, data}) => {
     }
 
     return (
-        <IconButton sx={{ padding: 0, margin: 0}} onClick={() => likeclick(data)}>
+        <IconButton sx={{ padding: 0, margin: 0}} onClick={() => likeclick(data.id)}>
             {SelectButton()}
         </IconButton>
     )

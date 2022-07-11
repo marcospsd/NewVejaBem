@@ -3,7 +3,6 @@ import {useAxios, useAxiosInfinity} from '../../../../hooks/useAxios'
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import './viewpost.css'
-import Button from '@mui/material/Button';
 import { IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import CloseIcon from '@mui/icons-material/Close';
@@ -15,6 +14,7 @@ import LikeList from './components/likeslist/likelist';
 import { DataMes } from '../../../../components/functions/data'
 import LoadingPage from '../../../../components/Loading/loading'
 import UIInfiniteScroll from '../../../../components/UIInfiniteScroll/UIInfiniteScroll';
+import LikeButton from '../../../../components/Likebutton/likebutton';
 
 
 const ViewPost = (props) => {
@@ -26,13 +26,14 @@ const ViewPost = (props) => {
     const [likesanchorElNav, setlikesAnchorElNav] = React.useState(null);
 
     if (!data) {
-        return ""
+        return <p>Carregando ...</p>
     }
     if (!post.data) {
-        return ""
+        return <p>Carregando ...</p>
     }
     if (!likes) {
-        return ""
+        return <p>Carregando ...</p>
+
     }
 
 
@@ -40,7 +41,7 @@ const ViewPost = (props) => {
         if(comentario) {
             const coment = {
                 comment_content: comentario,
-                comment_author: localStorage.getItem('iduser'),
+                comment_author: props.user.id,
                 comment_post: id,
             }
             api.post(`/posts/comments/`, coment)
@@ -57,14 +58,15 @@ const ViewPost = (props) => {
         .then((res) => {
             post.mutate()
             likes.mutate()
+            props.mutate()
         })
     }
 
     const NameButton = (data) => {
         const verificar = data.post_likes.filter(x => x === props.iduser)
         if (verificar.length === 0) {
-            return `Curtir`
-        } else { return `Descurtir`}
+            return false
+        } else { return true}
     }
 
     const DeleteComment = (id) => {
@@ -140,7 +142,7 @@ const ViewPost = (props) => {
                             <div className='ck-content' dangerouslySetInnerHTML={{__html: post.data.post_content}}/>
                             <hr></hr>
                             <div className='conteudo-buttonsview'>
-                                <Button variant="contained" id="curtir" onClick={() => Likebutton(post.data.id)}>{NameButton(post.data)}</Button>
+                                <LikeButton likestatus={NameButton} likeclick={Likebutton} data={post.data}/>
                                 <AvatarGroup id="likesimg" max={4} onClick={(e) => {
                                         setlikesAnchorElNav(e.currentTarget)
                                         setLikesList(true)

@@ -18,9 +18,11 @@ def compress(img):
     im = Image.open(img)
     im_io = BytesIO()
     widht, height = im.size
-    if widht > 100:
+    print(widht)
+    print(height)
+    if widht > 100 :
         new_widht = 400
-        new_height = round(new_widht * height / widht)
+        new_height = round( (new_widht * height ) / widht)
         new_image = im.resize((new_widht, new_height), Image.ANTIALIAS)
         new_image.save(im_io, format='PNG', quality=98)
         # create a Django-friendly Files object

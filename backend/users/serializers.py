@@ -1,4 +1,3 @@
-from asyncore import write
 from rest_framework import serializers
 from users.models import User, VariaveisAmbiente, FilhosExists
 from django.core.mail import send_mail

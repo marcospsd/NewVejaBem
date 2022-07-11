@@ -12,7 +12,7 @@ const LikeList = (props) => {
         props.setLikesList(null)
     };
   
-    console.log(props.likes)
+
     return (
         <Menu 
         open={props.likeslist} 
@@ -30,13 +30,11 @@ const LikeList = (props) => {
         >
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }} id="boxlikes">
             {props.likes && props.likes.usuarios.map((likes) => (
-              <>
-                <p key={likes.first_name}>
-                <Avatar src={likes.img} sx={{ width: 30, height: 30 }} id="avatar-likes" />
-                <b>{likes.first_name.split(' ').slice(0, 2).join(' ')}</b>
-                </p>
-                
-              </>
+                <div key={likes.first_name}>
+                  <p><Avatar src={likes.img} sx={{ width: 30, height: 30 }} id="avatar-likes" />
+                    <b>{likes.first_name.split(' ').slice(0, 2).join(' ')}</b>
+                  </p>
+                </div>
             ))}
             
           </Box>

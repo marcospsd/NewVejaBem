@@ -37,6 +37,7 @@ const Feed = props => {
     const [alert, setAlert] = useState("")
     const [modalalert, setModalAlert] = useState(null)
     const [travaButton, setTravaButton] = useState(null)
+    const [datapost, setDataPost] = useState(null)
 
 
     if(!data){
@@ -84,7 +85,8 @@ const Feed = props => {
 
     
     const Curtir = async (post) => {
-        await api.put(`/posts/like/${post.id}/`, { post_likes: [ iduser ]})
+        console.log(post)
+        await api.put(`/posts/like/${post}/`, { post_likes: [ iduser ]})
         .then((res) => {
             mutate()
         })
@@ -236,6 +238,7 @@ const Feed = props => {
                                                 Divdidi={Divdidi}
                                                 config={props.config}
                                                 navigate={navigate}
+                                                mutate={mutate}
                                                 
                         /> : null}
             </div>
