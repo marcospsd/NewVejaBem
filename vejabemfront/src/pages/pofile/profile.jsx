@@ -15,11 +15,14 @@ import PsychologyIcon from '@mui/icons-material/Psychology';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import EditProfileModal from './components/Editprofile/editprofile';
-
+import DropRules from '../../components/Rules/rules';
+import { PhotoRules } from '../../components/functions/rules';
 
 const ProfilePage = (props) => {
     const { user, setUser } = useContext(AuthContext)
     const [openeditmodal, setOpenEditModal] = useState(null)
+    const [tittle, setTittle] = useState("")
+
 
     if (!user) {
         return <p>Carregando ...</p>
@@ -52,7 +55,7 @@ const ProfilePage = (props) => {
             <div className='container-feedprofile'>
                 <div className="profile">
                     <label className="inputimg" htmlFor="icon-button-file">
-                        <input accept="image/*" id="icon-button-file" type="file" onChange={(event) => AtualizarImg(event)} />
+                        <DropRules text={PhotoRules()} block={true} id="icon-button-file" button={true} AtualizarImg={AtualizarImg}/>
                         <IconButton component="span">
                             <Badge
                                 overlap="circular"

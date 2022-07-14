@@ -7,6 +7,7 @@ import Administracao from "./pages/administracao/administracao"
 import { AuthProvicer, AuthContext } from "./contexts/auth";
 import { useContext } from "react";
 import ProfileUser from "./pages/profileuser/profileuser";
+import NewsPaper from "./pages/newspaper/newspaper";
 import LoadingPage from "./components/Loading/loading";
 import AlterarSenha from "./pages/alterarsenha/alterarsenha"
 
@@ -16,6 +17,7 @@ const AppRoutes = () => {
     
     const Private = ({children}) =>{
         const {authenticated, loading} = useContext(AuthContext)
+        
         if (loading) {
             return <LoadingPage/>
         }
@@ -38,6 +40,7 @@ const AppRoutes = () => {
                     <Route exact path="/user/:id" element={<Private><ProfileUser /></Private>} />
                     <Route exact path="/administracao" element={<Private><Administracao/></Private>} />
                     <Route exact path="/alterarsenha" element={<Private><AlterarSenha/></Private>} />
+                    <Route exact path="/newspaper" element={<Private><NewsPaper/></Private>} />
                 </Routes>
             </AuthProvicer>
         </BrowserRouter>

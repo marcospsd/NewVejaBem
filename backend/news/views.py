@@ -5,5 +5,13 @@ from news.serializers import *
 
 
 class NewsPaperView(viewsets.ModelViewSet):
-    queryset = NewsVejaBem.objects.all().order_by('-created_at')
+    queryset = NewsVejaBem.objects.all().filter(activo=True).order_by('-created_at').order_by('-id')
+    serializer_class = NewsPaperSerializer
+
+class EndNewsPaperView(viewsets.ModelViewSet):
+    queryset = NewsVejaBem.objects.all().filter(activo=True).order_by('-created_at').order_by('-id')[:1]
+    serializer_class = NewsPaperSerializer
+
+class AllPaperView(viewsets.ModelViewSet):
+    queryset = NewsVejaBem.objects.all().order_by('-created_at').order_by('-id')
     serializer_class = NewsPaperSerializer

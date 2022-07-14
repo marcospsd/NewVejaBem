@@ -18,7 +18,7 @@
         box-shadow: 17px 16px 19px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
     }
 
-    .post-feed button{
+    .post-feed #buttonfeed{
         background-color: var(--primarycolor);
         margin: 1rem;
         align-self: end;
@@ -29,7 +29,7 @@
         
     }
 
-    .post-feed button:hover {
+    .post-feed #buttonfeed:hover {
         background-color: var(--secundarycolor);
         color: var(--primarycolor);
         
@@ -143,7 +143,7 @@
         box-shadow: 17px 16px 19px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
     }
 
-    .post-feed button{
+    .post-feed #buttonfeed {
         background-color: var(--primarycolor);
         margin: 1rem;
         align-self: end;
@@ -154,7 +154,7 @@
         
     }
 
-    .post-feed button:hover {
+    .post-feed #buttonfeed:hover {
         background-color: var(--secundarycolor);
         color: var(--primarycolor);
         
@@ -244,6 +244,14 @@
     }
 
 
+}
+
+.display-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
 }
 
 

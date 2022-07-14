@@ -33,7 +33,7 @@ const Navbar = (props) => {
         }
     }
 
-    const pages = ['Feed', 'Noticias',];
+    const pages = ['Feed', 'Edições',];
 
     const settings = ['Perfil', 'Alterar Senha', ...superuser(), 'Logout',];
 
@@ -59,8 +59,8 @@ const Navbar = (props) => {
       switch (id) {
         case 'Feed':
           return navigate('/')
-        case 'Noticias':
-          return navigate('/')
+        case 'Edições':
+          return navigate('/newspaper')
         case 'Perfil':
           return navigate('/profile')
         case 'Alterar Senha':

@@ -9,11 +9,13 @@ import LoadingPage from '../../components/Loading/loading'
 import { TextField, Button } from '@mui/material'
 import SwitchIOS from '../../components/iosswitch/iosswitch'
 import ModalDidi from './modal/modal'
+import ModalNewPaper from './modal/modalnewspaper'
 
 const Administracao = () => {
     const { user, config, setConfig } = useContext(AuthContext)
     const [ habpost, setHabPost] = useState(null)
     const [ opendidi, setOpenDidi] = useState(null)
+    const [ openedition, setOpenEdition] = useState(null)
 
 
     if (!config) {
@@ -81,6 +83,14 @@ const Administracao = () => {
                         <Button variant="contained" id='adm-button' onClick={() => setOpenDidi(true)}>Abrir</Button>
                     </div>
                 </div>
+
+                <div className="vejabem-adm">
+                    <h3 className="titulo-adm"> Controle de Acesso Páginas VejaBem </h3>
+                    <div className="habilita-post">
+                        <p><b>Controlar Edições: </b></p>
+                        <Button variant="contained" id='adm-button' onClick={() => setOpenEdition(true)}>Abrir</Button>
+                    </div>
+                </div>
                 
             </div>
 
@@ -90,6 +100,7 @@ const Administracao = () => {
 
         </div>
             { opendidi && <ModalDidi open={opendidi} setOpen={setOpenDidi} data={config2}  />}
+            { openedition && <ModalNewPaper open={openedition} setOpen={setOpenEdition} />}
         </>
     )
 }

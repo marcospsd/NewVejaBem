@@ -1,0 +1,27 @@
+.content-tittle-newspaper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.content-tittle-newspaper * {
+    margin: 0.5rem;
+}
+
+#newspaper {
+    font-size: 5rem;
+}
+
+.content-id-newspaper { 
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    background-color: whitesmoke;
+    padding: 1.2rem;
+    border-radius: 1.5rem;
+    position: relative;
+    box-shadow: 17px 16px 19px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
+}

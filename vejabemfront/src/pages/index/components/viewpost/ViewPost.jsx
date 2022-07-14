@@ -26,13 +26,13 @@ const ViewPost = (props) => {
     const [likesanchorElNav, setlikesAnchorElNav] = React.useState(null);
 
     if (!data) {
-        return <p>Carregando ...</p>
+        return <LoadingPage/>
     }
     if (!post.data) {
-        return <p>Carregando ...</p>
+        return <LoadingPage/>
     }
     if (!likes) {
-        return <p>Carregando ...</p>
+        return <LoadingPage/>
 
     }
 

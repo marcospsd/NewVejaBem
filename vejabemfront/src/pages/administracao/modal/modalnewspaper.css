@@ -1,0 +1,60 @@
+.post-feed-newspaper {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    background-color: #dfdfdf;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 1.5rem;
+    box-shadow: 17px 16px 19px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+.content-id-newspaper2 { 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: whitesmoke;
+    padding: 1.2rem;
+    margin: 0.5rem;
+    border-radius: 1.5rem;
+    position: relative;
+    box-shadow: 17px 16px 19px -3px rgba(0,0,0,0.1),0px 10px 15px -3px rgba(0,0,0,0.1);
+}
+
+.content-edition {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.content-buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.div-switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.div-switch p {
+    margin: 1rem
+}
+
+#upload-button {
+    background-color: var(--secundarycolor);
+    color: white
+}
+
+#send-button {
+    background-color: var(--primarycolor);
+    color: white
+}

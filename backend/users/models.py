@@ -15,24 +15,22 @@ def get_file_path(instance, filename):
         return 'NONE'
 
 def compress(img):
+    print(img.name)
     im = Image.open(img)
     im_io = BytesIO()
     widht, height = im.size
-    print(widht)
-    print(height)
-    if widht > 100 :
+    if widht > 400 :
         new_widht = 400
         new_height = round( (new_widht * height ) / widht)
         new_image = im.resize((new_widht, new_height), Image.ANTIALIAS)
-        new_image.save(im_io, format='PNG', quality=98)
+        new_image.save(im_io, format='JPEG', quality=98)
         # create a Django-friendly Files object
         nova_image = File(im_io, name=img.name)
         return nova_image
     else:
-        im.save(im_io, format='PNG', quality=98)
+        im.save(im_io, format='JPEG', quality=98)
         # create a Django-friendly Files object
         nova_image = File(im_io, name=img.name)
-        im.delete()
         return nova_image
 
 

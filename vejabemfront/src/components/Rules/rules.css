@@ -1,0 +1,18 @@
+.div-rules {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    
+}
+
+#icon-button-file {
+    position: absolute;
+    visibility: hidden;
+}
+
+#upload-photo {
+   background-color: var(--primarycolor);
+   border-radius: 2rem;
+
+}

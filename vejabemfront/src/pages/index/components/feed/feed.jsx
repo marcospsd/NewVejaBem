@@ -18,6 +18,9 @@ import { FaRegComment } from 'react-icons/fa'
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import LikeButton from '../../../../components/Likebutton/likebutton';
+import DropRules from '../../../../components/Rules/rules'
+import { FeedRules } from '../../../../components/functions/rules'
+
 
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -159,12 +162,15 @@ const Feed = props => {
                             }}
         
                             />
-                        <Button variant="contained" id="button-post" onClick={(e, editor) => {
-                            
+                        <div className="display-buttons">
+                        <DropRules text={FeedRules()}/>
+                        <Button variant="contained" id="buttonfeed" onClick={(e, editor) => {
                             SendPost(ContainerPost)
                             setPost("")
                             
                         }} disabled={travaButton} >Postar</Button>
+                        
+                        </div>
                     </div> 
                     )
             } else { 
