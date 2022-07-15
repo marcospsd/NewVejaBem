@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'users',
     'posts',
     'news',
+    'dimais',
 ]
 
 MIDDLEWARE = [

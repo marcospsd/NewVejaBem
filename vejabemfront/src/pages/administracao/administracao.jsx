@@ -6,17 +6,20 @@ import News from '../index/components/news/news'
 import './administracao.css'
 import { api } from '../../services/api'
 import LoadingPage from '../../components/Loading/loading'
-import { TextField, Button } from '@mui/material'
+import { Button } from '@mui/material'
 import SwitchIOS from '../../components/iosswitch/iosswitch'
 import ModalDidi from './modal/modal'
 import ModalNewPaper from './modal/modalnewspaper'
+import ModalCI from './modal/modalci'
+
+
 
 const Administracao = () => {
     const { user, config, setConfig } = useContext(AuthContext)
     const [ habpost, setHabPost] = useState(null)
     const [ opendidi, setOpenDidi] = useState(null)
     const [ openedition, setOpenEdition] = useState(null)
-
+    const [ openciedition, setOpenciEdition] = useState(null)
 
     if (!config) {
         return <LoadingPage/>
@@ -90,6 +93,10 @@ const Administracao = () => {
                         <p><b>Controlar Edições: </b></p>
                         <Button variant="contained" id='adm-button' onClick={() => setOpenEdition(true)}>Abrir</Button>
                     </div>
+                    <div className="habilita-post">
+                        <p><b>Controlar C.I.: </b></p>
+                        <Button variant="contained" id='adm-button' onClick={() => setOpenciEdition(true)}>Abrir</Button>
+                    </div>
                 </div>
                 
             </div>
@@ -101,6 +108,7 @@ const Administracao = () => {
         </div>
             { opendidi && <ModalDidi open={opendidi} setOpen={setOpenDidi} data={config2}  />}
             { openedition && <ModalNewPaper open={openedition} setOpen={setOpenEdition} />}
+            { openciedition && <ModalCI open={openciedition} setOpen={setOpenciEdition} />}
         </>
     )
 }

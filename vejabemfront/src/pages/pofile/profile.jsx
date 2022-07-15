@@ -55,7 +55,6 @@ const ProfilePage = (props) => {
             <div className='container-feedprofile'>
                 <div className="profile">
                     <label className="inputimg" htmlFor="icon-button-file">
-                        <DropRules text={PhotoRules()} block={true} id="icon-button-file" button={true} AtualizarImg={AtualizarImg}/>
                         <IconButton component="span">
                             <Badge
                                 overlap="circular"
@@ -66,6 +65,7 @@ const ProfilePage = (props) => {
                                 >
                                 <Avatar id="avatar" alt={user.first_name} src={user.img} sx={{ width: 150, height: 150 }}></Avatar>
                             </Badge>
+                            <DropRules text={PhotoRules()} block={true} id="icon-button-file" button={true} AtualizarImg={AtualizarImg}/>
                         </IconButton>
                         
                     </label>

@@ -5,7 +5,7 @@ export const FeedRules = () => {
    
    return (
     <>
-    <h3>Regras para uso:</h3>
+    <h3>Manual de uso:</h3>
     <ul>
      <li>Palavras de baixo calão</li>
      <li>Utilização indevida fora do horario comercial</li>
@@ -22,7 +22,7 @@ export const PhotoRules = () => {
 
    return (
       <>
-      <h3>Regras para foto:</h3>
+      <h3>Para uma bela foto:</h3>
       <ul>
        <li>Palavras de baixo calão</li>
        <li>Utilização indevida fora do horario comercial</li>

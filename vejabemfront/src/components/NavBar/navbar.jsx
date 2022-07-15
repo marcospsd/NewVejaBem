@@ -33,7 +33,7 @@ const Navbar = (props) => {
         }
     }
 
-    const pages = ['Feed', 'Edições',];
+    const pages = ['Feed', 'Edições', 'C.I.', 'DI+'];
 
     const settings = ['Perfil', 'Alterar Senha', ...superuser(), 'Logout',];
 
@@ -61,6 +61,10 @@ const Navbar = (props) => {
           return navigate('/')
         case 'Edições':
           return navigate('/newspaper')
+        case 'C.I.':
+          return navigate('/cipage')
+        case 'DI+':
+          return navigate('/d+')
         case 'Perfil':
           return navigate('/profile')
         case 'Alterar Senha':

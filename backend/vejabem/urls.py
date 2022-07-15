@@ -21,13 +21,15 @@ from django.conf.urls.static import static
 from posts.urls import router
 from users.urls import routeruser, routerconfig
 from news.urls import newsrouter
+from dimais.urls import dimaisrouter
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('users.urls')),
     path('posts/', include(router.urls)),
     path('posts/', include('posts.urls')),
-    path('news/', include(newsrouter.urls)), 
+    path('news/', include(newsrouter.urls)),
+    path('dimais/', include(dimaisrouter.urls)), 
     path('auth/', include(routeruser.urls)), 
     path('auth/config/', include(routerconfig.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

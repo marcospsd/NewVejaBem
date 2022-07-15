@@ -10,6 +10,9 @@ import ProfileUser from "./pages/profileuser/profileuser";
 import NewsPaper from "./pages/newspaper/newspaper";
 import LoadingPage from "./components/Loading/loading";
 import AlterarSenha from "./pages/alterarsenha/alterarsenha"
+import CIPage from "./pages/ci/ci";
+import DescontoFunc from "./pages/d+/components/d+descontofunc";
+import DMAISPage from "./pages/d+/d+";
 
 
 
@@ -41,6 +44,9 @@ const AppRoutes = () => {
                     <Route exact path="/administracao" element={<Private><Administracao/></Private>} />
                     <Route exact path="/alterarsenha" element={<Private><AlterarSenha/></Private>} />
                     <Route exact path="/newspaper" element={<Private><NewsPaper/></Private>} />
+                    <Route exact path="/cipage" element={<Private><CIPage/></Private>} />
+                    <Route exact path="/d+" element={<Private><DMAISPage/></Private>} />
+                    <Route exact path="/d+/descfunc" element={<Private><DescontoFunc/></Private>} />
                 </Routes>
             </AuthProvicer>
         </BrowserRouter>
